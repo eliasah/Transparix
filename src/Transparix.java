@@ -21,6 +21,7 @@ public class Transparix {
 	}
 
 	public void extractStations(String filePath) throws IOException {
+		System.out.println("Extracting data");
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line = "";
 		while ((line = br.readLine()) != null) {
@@ -47,6 +48,7 @@ public class Transparix {
 					lines, neighbours));
 		}
 		br.close();
+		System.out.println(stations.toString());
 	}
 
 	public void extractLines(String filePath) throws IOException {

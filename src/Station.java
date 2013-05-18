@@ -76,4 +76,8 @@ public class Station {
 		this.neighbours = neighbours;
 	}
 
+	@Override
+	public String toString() {
+		return this.id + " " + this.name;
+	}
 }
