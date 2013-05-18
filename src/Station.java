@@ -86,4 +86,8 @@ public class Station {
 		return str;
 	}
 
+	@Override
+	public String toString() {
+		return this.id + " " + this.name;
+	}
 }
