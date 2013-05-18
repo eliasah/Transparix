@@ -170,6 +170,16 @@ public class AutoCompletion extends PlainDocument {
         return null;
     }
     
+    /** Verifie que str1 contient la sous chaine str2
+     * 
+     * @param str1
+     * @param str2
+     * @return
+     */
+    private boolean contains(String str1, String str2) {
+    	return str1.toUpperCase().contains(str2.toUpperCase());
+    }
+    
     // checks if str1 starts with str2 - ignores case
     private boolean startsWithIgnoreCase(String str1, String str2) {
         return str1.toUpperCase().startsWith(str2.toUpperCase());

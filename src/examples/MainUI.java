@@ -16,14 +16,14 @@ import java.awt.event.ActionEvent;
 
 public class MainUI {
 
-	private JFrame frame;
+	private JFrame frmTransparix;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					MainUI window = new MainUI();
-					window.frame.setVisible(true);
+					window.frmTransparix.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -36,14 +36,17 @@ public class MainUI {
 	}
 
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmTransparix = new JFrame();
+		frmTransparix.setTitle("Transparix");
+		frmTransparix.setBounds(100, 100, 450, 300);
+		frmTransparix.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JComboBox comboBox = new JComboBox(new Object[] {"Ester", "Jordi", "Jordina", "Jorge", "Sergi"});
 		AutoCompletion.enable(comboBox);
-		frame.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		frame.getContentPane().add(comboBox);
+		frmTransparix.getContentPane().setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		frmTransparix.getContentPane().add(comboBox);
+		
+		JButton hello = new JButton("Hello");
 		
 		JButton quit = new JButton("Quitter");
 		quit.addActionListener(new ActionListener() {
@@ -51,7 +54,8 @@ public class MainUI {
 				System.exit(0);
 			}
 		});
-		frame.getContentPane().add(quit);
+		frmTransparix.getContentPane().add(hello);
+		frmTransparix.getContentPane().add(quit);
 	}
 
 }
