@@ -4,6 +4,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.swing.JFrame;
+
 
 public class Transparix {
 
@@ -16,8 +18,15 @@ public class Transparix {
 	public Transparix() throws IOException {
 		this.stations = new LinkedList<Station>();
 		this.lines = new LinkedList<Line>();
+		
 		this.extractStations(FILE_STATIONS);
 		this.extractLines(FILE_LINES);
+		
+		// FIXME déplacer le code suivant
+		JFrame f = new JFrame("TransParix");
+		f.setContentPane(new PMap(stations, lines, 800, 800));
+		f.pack();
+		f.setVisible(true);
 	}
 
 	public void extractStations(String filePath) throws IOException {

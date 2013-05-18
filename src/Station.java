@@ -1,6 +1,5 @@
 import java.util.LinkedList;
 
-
 public class Station {
 
 	int id;
@@ -74,6 +73,17 @@ public class Station {
 
 	public void setNeighbours(LinkedList<Couple<String, Integer>> neighbours) {
 		this.neighbours = neighbours;
+	}
+	
+	public String toString() {
+		String str = "";
+		str += this.id + ", ";
+		str += this.name + ", ";
+		str += this.city + ", ";
+		str += this.latitude + ", ";
+		str += this.longitude + ", ";
+		// TODO afficher lignes et voisins 
+		return str;
 	}
 
 }
