@@ -1,12 +1,21 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-
+/**
+ * TODO
+ * 
+ * @author isabelle
+ *
+ */
 public class Transparix {
 
 	private final String FILE_STATIONS = "data/data_v1/stations.txt";
@@ -15,6 +24,11 @@ public class Transparix {
 	private LinkedList<Station> stations;
 	private LinkedList<Line> lines;
 
+	/**
+	 * Constructeur qui charge les données et génère la fenêtre principale
+	 * de l'application TransParix.
+	 * @throws IOException
+	 */
 	public Transparix() throws IOException {
 		this.stations = new LinkedList<Station>();
 		this.lines = new LinkedList<Line>();
@@ -22,15 +36,32 @@ public class Transparix {
 		this.extractStations(FILE_STATIONS);
 		this.extractLines(FILE_LINES);
 		
-		// FIXME déplacer le code suivant
+		this.createGUI();
+	}
+	
+	/**
+	 * Crée et affiche la fenêtre principale de TransParix.
+	 */
+	public void createGUI() {
+		JLabel label = new JLabel("== TransParix ==");
+		PMap map = new PMap(stations, lines, 600, 600);
+		
 		JFrame f = new JFrame("TransParix");
-		f.setContentPane(new PMap(stations, lines, 800, 800));
+		f.setPreferredSize(new Dimension(800, 700));
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.getContentPane().add(label);
+		f.getContentPane().add(map);
 		f.pack();
 		f.setVisible(true);
 	}
 
+	/**
+	 * Extrait les informations sur les stations qui composent 
+	 * le Métro Parisien.
+	 * @param filePath Le chemin du fichier contenant les stations.
+	 * @throws IOException
+	 */
 	public void extractStations(String filePath) throws IOException {
-		System.out.println("Extracting data");
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line = "";
 		while ((line = br.readLine()) != null) {
@@ -57,14 +88,35 @@ public class Transparix {
 					lines, neighbours));
 		}
 		br.close();
-		System.out.println(stations.toString());
 	}
 
+	/**
+	 * Extrait les informations sur les lignes qui composent 
+	 * le Métro Parisien.
+	 * @param filePath Le chemin du fichier contenant les lignes.
+	 * @throws IOException
+	 */
 	public void extractLines(String filePath) throws IOException {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		String line = "";
-		while ((line = br.readLine()) != null){
-			// TODO
+		while ((line = br.readLine()) != null) {
+			String[] args = line.split("#");
+			String id = args[0];
+			LinkedList<Integer> idDepartures = new LinkedList<Integer>();
+			String[] idDeparturesLine = args[1].split(";");
+			for (String s : idDeparturesLine) {
+				idDepartures.add(Integer.parseInt(s));
+			}
+			LinkedList<Integer> idArrivals = new LinkedList<Integer>();
+			String[] idArrivalsLine = args[2].split(";");
+			for (String s : idArrivalsLine) {
+				idArrivals.add(Integer.parseInt(s));
+			}
+			String[] rgb = args[3].split(",");
+			int r = Integer.parseInt(rgb[0]);
+			int g = Integer.parseInt(rgb[1]);
+			int b = Integer.parseInt(rgb[2]);
+			this.lines.add(new Line(id, idDepartures, idArrivals, new Color(r,g,b)));
 		}
 		br.close();
 	}

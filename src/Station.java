@@ -1,13 +1,33 @@
 import java.util.LinkedList;
 
+/**
+ * Cette classe permet de sauvegarder les informations sur une 
+ * station de métro, à savoir son identifiant dans la base de données 
+ * de la RATP, son nom, la ville où elle se situe et ses coordonnées 
+ * géographiques, les lignes auxquelles elle appartient et les stations
+ * qui lui sont directement accessibles. 
+ * 
+ * @author isabelle
+ *
+ */
 public class Station {
 
-	int id;
-	String name, city;
-	float latitude, longitude;
-	LinkedList<String> lines;
-	LinkedList<Couple<String,Integer>> neighbours;
+	private int id;
+	private String name, city;
+	private float latitude, longitude;
+	private LinkedList<String> lines;
+	private LinkedList<Couple<String,Integer>> neighbours;
 	
+	/**
+	 * Constructeur d'une station.
+	 * @param id L'identifiant de la station.
+	 * @param name Le nom de la station.
+	 * @param city La ville où se situe la station.
+	 * @param latitude La latitude où se situe la station.
+	 * @param longitude La longitude où se situe la station.
+	 * @param lines Les lignes auxquelles appartient la station.
+	 * @param neighbours Les stations voisines de la station.
+	 */
 	public Station(int id, String name, String city, float latitude, float longitude,
 			LinkedList<String> lines, LinkedList<Couple<String,Integer>> neighbours) {
 		this.id = id;
@@ -19,60 +39,60 @@ public class Station {
 		this.neighbours = neighbours;
 	}
 
+	/**
+	 * Renvoie l'identifiant de la station.
+	 * @return L'identifiant de la station.
+	 */
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	/**
+	 * Renvoie le nom de la station.
+	 * @return Le nom de la station.
+	 */
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
+	/**
+	 * Renvoie la ville où se situe la station.
+	 * @return La ville où se situe la station.
+	 */
 	public String getCity() {
 		return city;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
-	}
-
+	/**
+	 * Renvoie la latitude de la station.
+	 * @return La latitude de la station.
+	 */
 	public float getLatitude() {
 		return latitude;
 	}
 
-	public void setLatitude(float latitude) {
-		this.latitude = latitude;
-	}
-
+	/**
+	 * Renvoie la longitude de la station.
+	 * @return La longitude de la station.
+	 */
 	public float getLongitude() {
 		return longitude;
 	}
 
-	public void setLongitude(float longitude) {
-		this.longitude = longitude;
-	}
-
+	/**
+	 * Renvoie la liste des lignes auxquelles appartient la station.
+	 * @return La liste des lignes auxquelles appartient la station.
+	 */
 	public LinkedList<String> getLines() {
 		return lines;
 	}
 
-	public void setLines(LinkedList<String> lines) {
-		this.lines = lines;
-	}
-
+	/**
+	 * Renvoie la liste des voisins de la station.
+	 * @return La liste des voisins de la station.
+	 */
 	public LinkedList<Couple<String, Integer>> getNeighbours() {
 		return neighbours;
-	}
-
-	public void setNeighbours(LinkedList<Couple<String, Integer>> neighbours) {
-		this.neighbours = neighbours;
 	}
 	
 	public String toString() {
@@ -84,10 +104,5 @@ public class Station {
 		str += this.longitude + ", ";
 		// TODO afficher lignes et voisins 
 		return str;
-	}
-
-	@Override
-	public String toString() {
-		return this.id + " " + this.name;
 	}
 }
