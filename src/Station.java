@@ -1,4 +1,8 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
+
+import javax.swing.JButton;
 
 /**
  * Cette classe permet de sauvegarder les informations sur une 
@@ -38,13 +42,13 @@ public class Station {
 		this.lines = lines;
 		this.neighbours = neighbours;
 	}
-
+	
 	/**
 	 * Renvoie l'identifiant de la station.
 	 * @return L'identifiant de la station.
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
 
 	/**
@@ -52,7 +56,7 @@ public class Station {
 	 * @return Le nom de la station.
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 
 	/**
@@ -60,7 +64,7 @@ public class Station {
 	 * @return La ville où se situe la station.
 	 */
 	public String getCity() {
-		return city;
+		return this.city;
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class Station {
 	 * @return La latitude de la station.
 	 */
 	public float getLatitude() {
-		return latitude;
+		return this.latitude;
 	}
 
 	/**
@@ -76,7 +80,7 @@ public class Station {
 	 * @return La longitude de la station.
 	 */
 	public float getLongitude() {
-		return longitude;
+		return this.longitude;
 	}
 
 	/**
@@ -84,7 +88,7 @@ public class Station {
 	 * @return La liste des lignes auxquelles appartient la station.
 	 */
 	public LinkedList<String> getLines() {
-		return lines;
+		return this.lines;
 	}
 
 	/**
@@ -92,7 +96,7 @@ public class Station {
 	 * @return La liste des voisins de la station.
 	 */
 	public LinkedList<Couple<String, Integer>> getNeighbours() {
-		return neighbours;
+		return this.neighbours;
 	}
 	
 	public String toString() {

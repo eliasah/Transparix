@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -39,22 +40,6 @@ public class Transparix {
 		this.createGUI();
 	}
 	
-	/**
-	 * Crée et affiche la fenêtre principale de TransParix.
-	 */
-	public void createGUI() {
-		JLabel label = new JLabel("== TransParix ==");
-		PMap map = new PMap(stations, lines, 600, 600);
-		
-		JFrame f = new JFrame("TransParix");
-		f.setPreferredSize(new Dimension(800, 700));
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(label);
-		f.getContentPane().add(map);
-		f.pack();
-		f.setVisible(true);
-	}
-
 	/**
 	 * Extrait les informations sur les stations qui composent 
 	 * le Métro Parisien.
@@ -120,10 +105,34 @@ public class Transparix {
 		}
 		br.close();
 	}
+	
+	
+	/**
+	 * Crée et affiche la fenêtre principale de TransParix.
+	 */
+	public void createGUI() {
+		JLabel label = new JLabel("== TransParix ==");
+		PMap map = new PMap(stations, lines, 600, 600);
+		
+		// panel principal
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BorderLayout());
+		mainPanel.add(label, BorderLayout.NORTH);
+		mainPanel.add(map, BorderLayout.SOUTH);
+
+		// fenêtre principale
+		JFrame f = new JFrame("TransParix");
+		f.setPreferredSize(new Dimension(700, 700));
+		f.setMinimumSize(new Dimension(700, 700));
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setContentPane(mainPanel);
+		f.pack();
+		f.setVisible(true);
+	}
 
 	public static void main(String[] args) {
 		try {
-			Transparix t = new Transparix();
+			new Transparix();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
