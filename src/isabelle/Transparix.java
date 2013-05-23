@@ -5,11 +5,14 @@ import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.LinkedList;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 /**
@@ -23,8 +26,8 @@ public class Transparix {
 	private final String FILE_STATIONS = "data/data_v1/stations.txt";
 	private final String FILE_LINES = "data/data_v1/lignes.txt";	
 
-	private LinkedList<Station> stations;
-	private LinkedList<Line> lines;
+	private Hashtable<Integer,Station> stations;
+	private Hashtable<String,Line> lines;
 
 	/**
 	 * Constructeur qui charge les données et génère la fenêtre principale
@@ -32,8 +35,8 @@ public class Transparix {
 	 * @throws IOException
 	 */
 	public Transparix() throws IOException {
-		this.stations = new LinkedList<Station>();
-		this.lines = new LinkedList<Line>();
+		this.stations = new Hashtable<Integer,Station>();
+		this.lines = new Hashtable<String,Line>();
 		
 		this.extractStations(FILE_STATIONS);
 		this.extractLines(FILE_LINES);
@@ -70,8 +73,8 @@ public class Transparix {
 				neighbours.add(new Couple<String,Integer>(tmp[0], 
 						Integer.parseInt(tmp[1])));
 			}
-			this.stations.add(new Station(id, name, city, latitude, longitude,
-					lines, neighbours));
+			this.stations.put(id, new Station(id, name, city, latitude, 
+					longitude, lines, neighbours));
 		}
 		br.close();
 	}
@@ -102,7 +105,8 @@ public class Transparix {
 			int r = Integer.parseInt(rgb[0]);
 			int g = Integer.parseInt(rgb[1]);
 			int b = Integer.parseInt(rgb[2]);
-			this.lines.add(new Line(id, idDepartures, idArrivals, new Color(r,g,b)));
+			this.lines.put(id, new Line(id, idDepartures, idArrivals, 
+					new Color(r,g,b)));
 		}
 		br.close();
 	}
@@ -112,8 +116,16 @@ public class Transparix {
 	 * Crée et affiche la fenêtre principale de TransParix.
 	 */
 	public void createGUI() {
+		// barre de menu
+		JMenuBar menubar = new JMenuBar();
+		JMenu fichier = new JMenu("Fichier");
+		JMenuItem quitter = new JMenuItem("Quitter");
+		fichier.add(quitter);
+		menubar.add(fichier);
+		
+		// plan de métro
 		JLabel label = new JLabel("== TransParix ==");
-		PMap map = new PMap(stations, lines, 500, 500);
+		PMap map = new PMap(stations, lines, 600, 600);
 		
 		// panel principal
 		JPanel mainPanel = new JPanel();
@@ -123,8 +135,9 @@ public class Transparix {
 
 		// fenêtre principale
 		JFrame f = new JFrame("TransParix");
-		f.setPreferredSize(new Dimension(600, 600));
-		f.setMinimumSize(new Dimension(600, 600));
+		f.setJMenuBar(menubar);
+		f.setPreferredSize(new Dimension(650, 650));
+		f.setMinimumSize(new Dimension(650, 650));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setContentPane(mainPanel);
 		f.pack();
