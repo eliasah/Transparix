@@ -16,7 +16,7 @@ public class Station implements Comparable<Station>{
 	float latitude;
 	float longitude;
 	ArrayList<String> lignes;
-	HashMap<Integer,String> voisins;
+	HashMap<Integer,String> voisins; // ligne , nom
 	boolean visited;
 
 	public Station(String nom) {

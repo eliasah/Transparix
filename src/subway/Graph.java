@@ -16,12 +16,12 @@ public class Graph{
 	// ID # NOM # LAT # LONG # VILLE # LIGNES # VOISIN ((ligne,id);)*
 	private int v;
 	private int e;
-	private ArrayList<Station> map;
+	private HashMap<Integer,Station> map;
 
 	public Graph() {
 		v = 0;
 		e = 0;
-		map = new ArrayList<Station>();
+		map = new HashMap<Integer,Station>();
 	}
 
 	public void fillwithStations(String filePath) throws IOException {
@@ -55,7 +55,7 @@ public class Graph{
 			}
 
 			Station s = new Station(id, name, city, latitude, longitude, lines, neighbours, false);
-			this.map.add(s);
+			this.map.put(s.getId(),s);
 			v++;
 			// System.out.println(s);
 		}
@@ -66,7 +66,7 @@ public class Graph{
 		new Dijkstra(this, dep);
 	}
 
-	public ArrayList<Station> getMap() {
+	public HashMap<Integer, Station> getMap() {
 		return map;
 	}
 
@@ -79,8 +79,7 @@ public class Graph{
 			System.out.println("File not found");
 			// e.printStackTrace();
 		}
-		BFS parcours = new BFS(gs);
-		//gs.getShortestPath("Villiers","b");
+		BFS parcours = new BFS(gs,1654,1790);
 	}
 
 	
