@@ -21,8 +21,9 @@ import javax.swing.JPanel;
  * @author isabelle
  *
  */
-public class PMap extends JPanel {
+public class Map extends JPanel {
 
+	private Transparix parent;
 	private Hashtable<Integer,Station> stations;
 	private Hashtable<String,Line> lines;
 	private int width, height;
@@ -35,8 +36,9 @@ public class PMap extends JPanel {
 	 * @param width La largeur de la carte.
 	 * @param height La longueur de la carte.
 	 */
-	public PMap(Hashtable<Integer, Station> stations, 
+	public Map(Transparix p, Hashtable<Integer, Station> stations, 
 			Hashtable<String, Line> lines, int width, int height) {
+		this.parent = p;
 		this.stations = stations;
 		this.lines = lines;
 		this.width = width;
@@ -60,11 +62,8 @@ public class PMap extends JPanel {
 				int x = arg0.getX();
 				int y = arg0.getY();
 				Station s = stationPressed(x, y);
-				if (s != null) {
-					System.out.println(s.getName());
-				} else {
-					System.out.println("Pas de stations (x="+x+"; y="+y+")");
-				}
+				if (s != null)
+					parent.getStationName().setText(s.getName());
 			}
 		});
 		this.repaint();
@@ -74,25 +73,32 @@ public class PMap extends JPanel {
 	public void paintComponent(Graphics gg) {
 		super.paintComponent(gg);
 		Graphics2D g = (Graphics2D)gg;
+		Dimension dim = getSize();
+		BasicStroke stroke = new BasicStroke(3);
+
+		// coloration du fond de la carte
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
+
+		// itération sur l'ensemble des stations
 		Iterator<Entry<Integer, Station>> it = this.stations.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
-			int[] coords = this.convertCoordonneesStation(s.getLatitude(), 
+			int[] coords = this.convertCoordinatesStation(s.getLatitude(), 
 					s.getLongitude(), this.width, this.height);
 
 			// affichage de la station
 			g.setColor(Color.BLACK);
 			g.fillRect(coords[0]-STATION_SIZE/2, coords[1]-STATION_SIZE/2, 
 					STATION_SIZE, STATION_SIZE);
-			
-			// affichage des lignes
-			g.setStroke(new BasicStroke(3));
-			// récupération des voisins de s
+
+			// tracé des segments reliant la station à chacun de ses voisins
+			g.setStroke(stroke);
 			LinkedList<Couple<String,Integer>> nList = s.getNeighbours();
 			for (Couple<String,Integer> c : nList) {
 				int idSN = c.second();
 				Station sN = this.stations.get(idSN);
-				int[] coordsSN = this.convertCoordonneesStation(sN.getLatitude(), 
+				int[] coordsSN = this.convertCoordinatesStation(sN.getLatitude(), 
 						sN.getLongitude(), this.width, this.height);
 				String idLN = c.first();
 				Line lN = this.lines.get(idLN);
@@ -115,7 +121,7 @@ public class PMap extends JPanel {
 		Iterator<Entry<Integer, Station>> it = this.stations.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
-			int[] coords = this.convertCoordonneesStation(s.getLatitude(), 
+			int[] coords = this.convertCoordinatesStation(s.getLatitude(), 
 					s.getLongitude(), this.width, this.height);
 			int xS = coords[0];
 			int yS = coords[1];
@@ -135,7 +141,7 @@ public class PMap extends JPanel {
 	 * @param height La hauteur de la carte.
 	 * @return Les coordonnées x et y.
 	 */
-	public int[] convertCoordonneesStation(double latitude, double longitude, 
+	public int[] convertCoordinatesStation(double latitude, double longitude, 
 			int width, int height) {
 		int[] tab = new int[2];
 		double margin = 0.01;

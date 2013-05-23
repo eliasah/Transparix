@@ -2,18 +2,17 @@ package isabelle;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.io.BufferedReader;
-import java.io.FileReader;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.Hashtable;
-import java.util.LinkedList;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * TODO
@@ -21,135 +20,88 @@ import javax.swing.JPanel;
  * @author isabelle
  *
  */
-public class Transparix {
+public class Transparix implements Runnable {
 
 	private final String FILE_STATIONS = "data/data_v1/stations.txt";
 	private final String FILE_LINES = "data/data_v1/lignes.txt";	
 
 	private Hashtable<Integer,Station> stations;
 	private Hashtable<String,Line> lines;
+	
+	private JFrame frame;
+	private JMenuBar menubar;
+	private JMenu fichier;
+	private JMenuItem quitter;
+	private Map map;
+	private JPanel panel, informations;
+	private JLabel stationName;
 
 	/**
-	 * Constructeur qui charge les données et génère la fenêtre principale
-	 * de l'application TransParix.
+	 * Constructeur qui charge les données de l'application TransParix.
 	 * @throws IOException
 	 */
-	public Transparix() throws IOException {
-		this.stations = new Hashtable<Integer,Station>();
-		this.lines = new Hashtable<String,Line>();
-		
-		this.extractStations(FILE_STATIONS);
-		this.extractLines(FILE_LINES);
-		
-		this.createGUI();
+	public Transparix() {
+		this.stations =	Extraction.extractStations(FILE_STATIONS); 
+		this.lines = Extraction.extractLines(FILE_LINES);
 	}
 	
 	/**
-	 * Extrait les informations sur les stations qui composent 
-	 * le Métro Parisien.
-	 * @param filePath Le chemin du fichier contenant les stations.
-	 * @throws IOException
+	 * Retourne le label qui contient le nom de la station sur lequel
+	 * l'utilisateur a cliqué.
+	 * @return Le nom de la station.
 	 */
-	public void extractStations(String filePath) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
-		String line = "";
-		while ((line = br.readLine()) != null) {
-			String[] args = line.split("#");
-			int id = Integer.parseInt(args[0]);
-			String name = args[1];
-			float latitude = Float.parseFloat(args[2]);
-			float longitude = Float.parseFloat(args[3]);
-			String city = args[4];
-			LinkedList<String> lines = new LinkedList<String>();
-			String[] linesStations = args[5].split(";");
-			for (String s : linesStations) {
-				lines.add(s);
-			}
-			LinkedList<Couple<String,Integer>> neighbours = 
-					new LinkedList<Couple<String,Integer>>();
-			String[] neighboursLinesStations = args[6].split(";");
-			for (String s : neighboursLinesStations) {
-				String[] tmp = s.split(",");
-				neighbours.add(new Couple<String,Integer>(tmp[0], 
-						Integer.parseInt(tmp[1])));
-			}
-			this.stations.put(id, new Station(id, name, city, latitude, 
-					longitude, lines, neighbours));
-		}
-		br.close();
+	public JLabel getStationName() {
+		return stationName;
 	}
 
-	/**
-	 * Extrait les informations sur les lignes qui composent 
-	 * le Métro Parisien.
-	 * @param filePath Le chemin du fichier contenant les lignes.
-	 * @throws IOException
-	 */
-	public void extractLines(String filePath) throws IOException {
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
-		String line = "";
-		while ((line = br.readLine()) != null) {
-			String[] args = line.split("#");
-			String id = args[0];
-			LinkedList<Integer> idDepartures = new LinkedList<Integer>();
-			String[] idDeparturesLine = args[1].split(";");
-			for (String s : idDeparturesLine) {
-				idDepartures.add(Integer.parseInt(s));
-			}
-			LinkedList<Integer> idArrivals = new LinkedList<Integer>();
-			String[] idArrivalsLine = args[2].split(";");
-			for (String s : idArrivalsLine) {
-				idArrivals.add(Integer.parseInt(s));
-			}
-			String[] rgb = args[3].split(",");
-			int r = Integer.parseInt(rgb[0]);
-			int g = Integer.parseInt(rgb[1]);
-			int b = Integer.parseInt(rgb[2]);
-			this.lines.put(id, new Line(id, idDepartures, idArrivals, 
-					new Color(r,g,b)));
-		}
-		br.close();
-	}
-	
-	
-	/**
-	 * Crée et affiche la fenêtre principale de TransParix.
-	 */
-	public void createGUI() {
+	@Override
+	public void run() {
 		// barre de menu
-		JMenuBar menubar = new JMenuBar();
-		JMenu fichier = new JMenu("Fichier");
-		JMenuItem quitter = new JMenuItem("Quitter");
+		menubar = new JMenuBar();
+		fichier = new JMenu("Fichier");
+		quitter = new JMenuItem("Quitter");
+		quitter.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 		fichier.add(quitter);
 		menubar.add(fichier);
-		
+
 		// plan de métro
-		JLabel label = new JLabel("== TransParix ==");
-		PMap map = new PMap(stations, lines, 600, 600);
+		map = new Map(this, stations, lines, 500, 500);
 		
+		// panel informations
+		informations = new JPanel();
+		informations.setPreferredSize(new Dimension(200, 500));
+		stationName = new JLabel();
+		informations.add(stationName);
+		
+		// panel recherche station de métro
+		// TODO
+		
+		// panel recherche itinéraire
+		// TODO
+
 		// panel principal
-		JPanel mainPanel = new JPanel();
-		mainPanel.setLayout(new BorderLayout());
-		mainPanel.add(label, BorderLayout.NORTH);
-		mainPanel.add(map, BorderLayout.SOUTH);
+		// TODO ajouter une classe InformationsStation qui hérite de JPanel
+		panel = new JPanel();
+		panel.setLayout(new BorderLayout());
+		panel.add(map, BorderLayout.WEST);
+		panel.add(informations, BorderLayout.EAST);
 
 		// fenêtre principale
-		JFrame f = new JFrame("TransParix");
-		f.setJMenuBar(menubar);
-		f.setPreferredSize(new Dimension(650, 650));
-		f.setMinimumSize(new Dimension(650, 650));
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setContentPane(mainPanel);
-		f.pack();
-		f.setVisible(true);
+		frame = new JFrame("TransParix");
+		frame.setJMenuBar(menubar);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setContentPane(panel);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 	public static void main(String[] args) {
-		try {
-			new Transparix();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		SwingUtilities.invokeLater(new Transparix());
 	}
 
 }
