@@ -1,4 +1,4 @@
-package itineraire;
+package subway;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,31 +12,31 @@ public class Dijkstras {
 
 	public static void main(String[] args) {
 		Graph g = new Graph();
-		g.addVertex('A', Arrays.asList(new Vertex('B', 7), new Vertex('C', 8)));
-		g.addVertex('B', Arrays.asList(new Vertex('A', 7), new Vertex('F', 2)));
-		g.addVertex('C', Arrays.asList(new Vertex('A', 8), new Vertex('F', 6), new Vertex('G', 4)));
-		g.addVertex('D', Arrays.asList(new Vertex('F', 8)));
-		g.addVertex('E', Arrays.asList(new Vertex('H', 1)));
-		g.addVertex('F', Arrays.asList(new Vertex('B', 2), new Vertex('C', 6), new Vertex('D', 8), new Vertex('G', 9), new Vertex('H', 3)));
-		g.addVertex('G', Arrays.asList(new Vertex('C', 4), new Vertex('F', 9)));
-		g.addVertex('H', Arrays.asList(new Vertex('E', 1), new Vertex('F', 3)));
-		System.out.println(g.getShortestPath('A', 'H'));
+		g.addVertex("A", Arrays.asList(new Vertex("B", 7), new Vertex("C", 8)));
+		g.addVertex("B", Arrays.asList(new Vertex("A", 7), new Vertex("F", 2)));
+		g.addVertex("C", Arrays.asList(new Vertex("A", 8), new Vertex("F", 6), new Vertex("G", 4)));
+		g.addVertex("D", Arrays.asList(new Vertex("F", 8)));
+		g.addVertex("E", Arrays.asList(new Vertex("H", 1)));
+		g.addVertex("F", Arrays.asList(new Vertex("B", 2), new Vertex("C", 6), new Vertex("D", 8), new Vertex("G", 9), new Vertex("H", 3)));
+		g.addVertex("G", Arrays.asList(new Vertex("C", 4), new Vertex("F", 9)));
+		g.addVertex("H", Arrays.asList(new Vertex("E", 1), new Vertex("F", 3)));
+		System.out.println(g.getShortestPath("A", "H"));
 	}
 	
 }
 
 class Vertex implements Comparable<Vertex> {
 	
-	private Character id;
+	private String id;
 	private Integer distance;
 	
-	public Vertex(Character id, Integer distance) {
+	public Vertex(String id, Integer distance) {
 		super();
 		this.id = id;
 		this.distance = distance;
 	}
 
-	public Character getId() {
+	public String getId() {
 		return id;
 	}
 
@@ -44,7 +44,7 @@ class Vertex implements Comparable<Vertex> {
 		return distance;
 	}
 	
-	public void setId(Character id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -98,23 +98,23 @@ class Vertex implements Comparable<Vertex> {
 
 class Graph {
 	
-	private final Map<Character, List<Vertex>> vertices;
+	private final Map<String, List<Vertex>> vertices;
 	
 	public Graph() {
-		this.vertices = new LinkedHashMap<Character, List<Vertex>>(); 
+		this.vertices = new LinkedHashMap<String, List<Vertex>>(); 
 	}
 	
-	public void addVertex(Character character, List<Vertex> vertex) {
+	public void addVertex(String character, List<Vertex> vertex) {
 		this.vertices.put(character, vertex);
 	}
 	
-	public List<Character> getShortestPath(Character start, Character finish) {
-		Map<Character, Integer> distances = new LinkedHashMap<Character, Integer>();
+	public List<String> getShortestPath(String start, String finish) {
+		Map<String, Integer> distances = new LinkedHashMap<String, Integer>();
 		PriorityQueue<Vertex> nodes = new PriorityQueue<Vertex>();
-		Map<Character, Vertex> previous = new LinkedHashMap<Character, Vertex>();
-		List<Character> path = new LinkedList<Character>();
+		Map<String, Vertex> previous = new LinkedHashMap<String, Vertex>();
+		List<String> path = new LinkedList<String>();
 		
-		for(Character vertex : vertices.keySet()) {
+		for(String vertex : vertices.keySet()) {
 			if (vertex == start) {
 				distances.put(vertex, 0);
 				nodes.add(new Vertex(vertex, 0));
@@ -128,7 +128,7 @@ class Graph {
 		while (!nodes.isEmpty()) {
 			Vertex smallest = nodes.poll();
 			if (smallest.getId() == finish) {
-				path = new LinkedList<Character>();
+				path = new LinkedList<String>();
 				while (previous.get(smallest.getId()) != null) {
 					path.add(smallest.getId());
 					smallest = previous.get(smallest.getId());
@@ -157,7 +157,7 @@ class Graph {
 			}
 		}
 		
-		return new ArrayList<Character>(distances.keySet());
+		return new ArrayList<String>(distances.keySet());
 	}
 	
 }
