@@ -1,3 +1,4 @@
+package isabelle;
 
 public class Couple<A, B> extends java.lang.Object {
 

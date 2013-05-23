@@ -1,8 +1,5 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+package isabelle;
 import java.util.LinkedList;
-
-import javax.swing.JButton;
 
 /**
  * Cette classe permet de sauvegarder les informations sur une 
@@ -99,6 +96,7 @@ public class Station {
 		return this.neighbours;
 	}
 	
+	@Override
 	public String toString() {
 		String str = "";
 		str += this.id + ", ";

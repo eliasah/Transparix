@@ -1,3 +1,4 @@
+package isabelle;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -112,7 +113,7 @@ public class Transparix {
 	 */
 	public void createGUI() {
 		JLabel label = new JLabel("== TransParix ==");
-		PMap map = new PMap(stations, lines, 600, 600);
+		PMap map = new PMap(stations, lines, 500, 500);
 		
 		// panel principal
 		JPanel mainPanel = new JPanel();
@@ -122,8 +123,8 @@ public class Transparix {
 
 		// fenêtre principale
 		JFrame f = new JFrame("TransParix");
-		f.setPreferredSize(new Dimension(700, 700));
-		f.setMinimumSize(new Dimension(700, 700));
+		f.setPreferredSize(new Dimension(600, 600));
+		f.setMinimumSize(new Dimension(600, 600));
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setContentPane(mainPanel);
 		f.pack();
