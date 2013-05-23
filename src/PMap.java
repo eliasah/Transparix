@@ -1,17 +1,12 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.LinkedList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 /**
  * Cette classe représente le panneau d'affichage du plan du métro.
@@ -68,14 +63,19 @@ public class PMap extends JPanel {
 		this.repaint();
 	}
 	
-	
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(Color.BLUE);
 		for (Station s : this.stations) {
 			int[] coords = this.convertCoordonneesStation(s.getLatitude(), 
 					s.getLongitude(), this.width, this.height);
+			// affichage de la station
+			g.setColor(Color.BLUE);
 			g.fillRect(coords[0], coords[1], STATION_SIZE, STATION_SIZE);
+			// affichage des lignes
+			for (Couple<String,Integer> c : s.getNeighbours()) {
+				String idLine = c.premier();
+			}
 		}
 	}
 	
