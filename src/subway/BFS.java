@@ -5,32 +5,30 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class BFS {
 
-	ArrayList<String> order;
-	LinkedList<Integer> queue;
+	private LinkedList<Integer> queue;
 	private Graph graph;
 	private Station depart;
 	private Station arrivee;
-	private HashMap<Integer, Integer> visite;
-	private LinkedList<Couple> avisite;
+	private LinkedList<Integer> tmppath;
 	private LinkedList<Integer> path;
+	private HashMap list;
 
 	public BFS(Graph g, int d, int a) {
-		// initialisation
+		// 1 initialisation
 		this.graph = g;
-		this.order = new ArrayList();
-		this.path = new LinkedList<Integer>();
+		this.tmppath = new LinkedList<Integer>();
 		// 2 create a queue Q
 		this.queue = new LinkedList<Integer>();
 		this.depart = g.getStation(d);
 		this.arrivee = g.getStation(a);
+		this.list = new HashMap();
 
 		// 3 enqueue source onto Q
 		queue.add(depart.getId());
+		list.put(depart.getId(), 0);
 
 		// 4 mark source
 		this.depart.mark(true);
@@ -45,21 +43,21 @@ public class BFS {
 
 			// 7 for each edge e incident on v in Graph: For all neighbors
 			while (it.hasNext()) {
-				/**
-				 * 8 let w be the other end of e 9 if w is not marked: 10 mark w
-				 * 11 enqueue w onto Q
-				 */
 				Map.Entry pairs = (Map.Entry) it.next();
 				Station stmp = graph.getStation((int) pairs.getKey());
 				if (!stmp.isMarked()) {
 					stmp.mark(true);
 					queue.add(stmp.getId());
-					// System.out.println(stmp.getNom() + ", " + stmp.getId());
-					path.add(stmp.getId());
+					tmppath.add(stmp.getId());
+					list.put(stmp.getId(), v);
+					// System.out.println("De " + graph.getStation(v).getNom() +
+					// " vers " + stmp.getNom());
 				}
 
-				if (stmp.getId() == (int) arrivee.getId()) {
-					System.out.println(path);
+				if (stmp.getId() == arrivee.getId()) {
+					// System.out.println(path);
+					listtopath(a);
+					// System.out.println(list.toString());
 					System.out.println("trouvé!");
 					return;
 				}
@@ -68,7 +66,28 @@ public class BFS {
 		}
 	}
 
+	private void listtopath(int a) {
+		int val = (int) list.get(a);
+		path = new LinkedList<>();
+		path.add(val);
+		path.add(a);
+		while (val != 0) {
+			val = (int) list.get(val);
+			if (val != 0)
+				path.addFirst(val);
+		}
+	}
+
 	public LinkedList<Integer> getPath() {
 		return path;
 	}
+
+	public void printPath() {
+		Iterator<Integer> it = path.iterator();
+		while (it.hasNext()){
+			int tmp = (int) it.next();
+			System.out.println(graph.getStation(tmp));
+		}
+	}
+
 }
