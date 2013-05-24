@@ -6,22 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
 
 public class Graph {
 	// ID # NOM # LAT # LONG # VILLE # LIGNES # VOISIN ((ligne,id);)*
 	private int v; // nombre de station
 	private int e; // edges
-	private LinkedList<Couple> map;
+	private LinkedList<Couple<Integer, Station>> map;
 
 	public Graph() {
 		v = 0;
 		e = 0;
-		map = new LinkedList<Couple>();
+		map = new LinkedList<Couple<Integer, Station>>();
 	}
 
 	public Graph(String filepath) {
@@ -62,7 +58,8 @@ public class Graph {
 
 				Station s = new Station(id, name, city, latitude, longitude,
 						lines, neighbours, false);
-				Couple tmp = new Couple (s.getId(),s);
+				Couple<Integer, Station> tmp = new Couple<Integer, Station>(
+						s.getId(), s);
 				this.map.add(tmp);
 				v++;
 				// System.out.println(s);
@@ -76,30 +73,30 @@ public class Graph {
 	public int getV() {
 		return v;
 	}
-	
+
 	public void getShortestPath(String dep, String arr) {
 		new Dijkstra(this, dep);
 	}
 
-	public LinkedList<Couple> getMap() {
+	public LinkedList<Couple<Integer, Station>> getMap() {
 		return map;
 	}
-	
-	public Station getStation(int id){
-		Iterator it = this.map.iterator();
+
+	public Station getStation(int id) {
+		Iterator<Couple<Integer, Station>> it = this.map.iterator();
 		while (it.hasNext()) {
-			Couple c = (Couple) it.next();
-			if (id == (Integer) c.first())
-				return (Station) c.second();
+			Couple<Integer, Station> c = it.next();
+			if (id == c.first())
+				return c.second();
 		}
 		it.remove();
 		return null;
 	}
-	
+
 	public static void main(String[] args) {
 		String stations = "data/data_v1/stations.txt";
 		Graph gs = new Graph(stations);
-		BFS parcours = new BFS(gs, 1953,1793);
+		BFS parcours = new BFS(gs, 1953, 1793);
 		System.out.println(parcours.getPath());
 		parcours.printPath();
 	}

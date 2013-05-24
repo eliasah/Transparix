@@ -1,6 +1,5 @@
 package subway;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -14,7 +13,7 @@ public class BFS {
 	private Station arrivee;
 	private LinkedList<Integer> tmppath;
 	private LinkedList<Integer> path;
-	private HashMap list;
+	private HashMap<Integer, Integer> list;
 
 	public BFS(Graph g, int d, int a) {
 		// 1 initialisation
@@ -24,7 +23,7 @@ public class BFS {
 		this.queue = new LinkedList<Integer>();
 		this.depart = g.getStation(d);
 		this.arrivee = g.getStation(a);
-		this.list = new HashMap();
+		this.list = new HashMap<Integer, Integer>();
 
 		// 3 enqueue source onto Q
 		queue.add(depart.getId());
@@ -39,12 +38,13 @@ public class BFS {
 			int v = queue.poll();
 			Station tmp = graph.getStation(v);
 			HashMap<Integer, String> voisins = tmp.getVoisins();
-			Iterator it = voisins.entrySet().iterator();
+			Iterator<Map.Entry<Integer, String>> it = voisins.entrySet()
+					.iterator();
 
 			// 7 for each edge e incident on v in Graph: For all neighbors
 			while (it.hasNext()) {
-				Map.Entry pairs = (Map.Entry) it.next();
-				Station stmp = graph.getStation((int) pairs.getKey());
+				Map.Entry<Integer, String> pairs = it.next();
+				Station stmp = graph.getStation(pairs.getKey());
 				if (!stmp.isMarked()) {
 					stmp.mark(true);
 					queue.add(stmp.getId());
@@ -67,12 +67,12 @@ public class BFS {
 	}
 
 	private void listtopath(int a) {
-		int val = (int) list.get(a);
-		path = new LinkedList<>();
+		int val = list.get(a);
+		path = new LinkedList<Integer>();
 		path.add(val);
 		path.add(a);
 		while (val != 0) {
-			val = (int) list.get(val);
+			val = list.get(val);
 			if (val != 0)
 				path.addFirst(val);
 		}
@@ -84,8 +84,8 @@ public class BFS {
 
 	public void printPath() {
 		Iterator<Integer> it = path.iterator();
-		while (it.hasNext()){
-			int tmp = (int) it.next();
+		while (it.hasNext()) {
+			int tmp = it.next();
 			System.out.println(graph.getStation(tmp));
 		}
 	}
