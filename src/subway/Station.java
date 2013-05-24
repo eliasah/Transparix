@@ -2,13 +2,14 @@ package subway;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * @author Abou Haydar Elias - Univ. Paris Denis Diderot
  *
  */
-public class Station implements Comparable<Station>{
+public class Station{
 	int id;
 	int distance;
 	String nom;
@@ -18,6 +19,15 @@ public class Station implements Comparable<Station>{
 	ArrayList<String> lignes;
 	HashMap<Integer,String> voisins; // ligne , nom
 	boolean visited;
+	boolean marked;
+
+	public boolean isMarked() {
+		return marked;
+	}
+
+	public void mark(boolean marked) {
+		this.marked = marked;
+	}
 
 	public Station(String nom) {
 		this.nom = nom;
@@ -42,6 +52,10 @@ public class Station implements Comparable<Station>{
 	public Station(String nom, int distance) {
 		this.nom = nom;
 		this.distance = distance;
+	}
+
+	public Station() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public int getId() {
@@ -113,13 +127,11 @@ public class Station implements Comparable<Station>{
 		return nom + ", " + lignes + ", voisins = " + voisins;
 	}
 
-	@Override
-	public int compareTo(Station o) {
-		// TODO Auto-generated method stub
-		System.err.println("TODO : compareTo(Station o) implementation");
-		return 0;
+	public int getDistance() {
+		return distance;
 	}
-	
-  
-	
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 }

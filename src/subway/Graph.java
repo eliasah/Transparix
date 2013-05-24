@@ -16,18 +16,16 @@ public class Graph {
 	// ID # NOM # LAT # LONG # VILLE # LIGNES # VOISIN ((ligne,id);)*
 	private int v; // nombre de station
 	private int e; // edges
-	private HashMap<Integer, Station> map;
+	private LinkedList<Couple> map;
 
 	public Graph() {
 		v = 0;
 		e = 0;
-		map = new HashMap<Integer, Station>();
+		map = new LinkedList<Couple>();
 	}
 
 	public Graph(String filepath) {
-		v = 0;
-		e = 0;
-		map = new HashMap<Integer, Station>();
+		this();
 		this.fillwithStations(filepath);
 	}
 
@@ -64,7 +62,7 @@ public class Graph {
 
 				Station s = new Station(id, name, city, latitude, longitude,
 						lines, neighbours, false);
-				this.map.put(s.getId(), s);
+				this.map.add(new Couple(s.getId(),s));
 				v++;
 				// System.out.println(s);
 			}
@@ -74,18 +72,34 @@ public class Graph {
 		}
 	}
 
+	public int getV() {
+		return v;
+	}
+	
 	public void getShortestPath(String dep, String arr) {
 		new Dijkstra(this, dep);
 	}
 
-	public HashMap<Integer, Station> getMap() {
+	public LinkedList<Couple> getMap() {
 		return map;
 	}
-
+	
+	public Station getStation(int id){
+		Iterator it = this.map.iterator();
+		while (it.hasNext()) {
+			Couple c = (Couple) it.next();
+			if (id == c.first())
+				return c.second();
+		}
+		it.remove();
+		return null;
+	}
+	
 	public static void main(String[] args) {
 		String stations = "data/data_v1/stations.txt";
 		Graph gs = new Graph(stations);
-		BFS parcours = new BFS(gs, 1654, 1790);
+		BFS parcours = new BFS(gs, 1654,2005);
+		parcours.getPath();
 	}
 
 }
