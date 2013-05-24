@@ -124,7 +124,7 @@ public class Station{
 
 	@Override
 	public String toString() {
-		return nom + ", " + lignes + ", voisins = " + voisins;
+		return nom + ", " + lignes;// + " , voisins = " + voisins;
 	}
 
 	public int getDistance() {

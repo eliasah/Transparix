@@ -1,21 +1,28 @@
 package subway;
 
-public class Couple {
+public class Couple<K,V>{
 
-	private int id;
-	private Station station;
+	private K key;
+	private V val;
 
-	public Couple (int i, Station s) {
-		id = i;
-		station = s;
+	public Couple (K k, V v) {
+		key = k;
+		val = v;
 	}
 
-	public int first() {
-		return id;
+	public K first() {
+		return key;
 	}
 
-	public Station second() {
-		return station;
+	public V second() {
+		return val;
 	}
+
+	@Override
+	public String toString() {
+		return "(" + key + ", " + val + ")";
+	}
+	
+	
 
 }

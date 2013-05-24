@@ -62,7 +62,8 @@ public class Graph {
 
 				Station s = new Station(id, name, city, latitude, longitude,
 						lines, neighbours, false);
-				this.map.add(new Couple(s.getId(),s));
+				Couple tmp = new Couple (s.getId(),s);
+				this.map.add(tmp);
 				v++;
 				// System.out.println(s);
 			}
@@ -88,8 +89,8 @@ public class Graph {
 		Iterator it = this.map.iterator();
 		while (it.hasNext()) {
 			Couple c = (Couple) it.next();
-			if (id == c.first())
-				return c.second();
+			if (id == (Integer) c.first())
+				return (Station) c.second();
 		}
 		it.remove();
 		return null;
@@ -98,8 +99,9 @@ public class Graph {
 	public static void main(String[] args) {
 		String stations = "data/data_v1/stations.txt";
 		Graph gs = new Graph(stations);
-		BFS parcours = new BFS(gs, 1654,2005);
-		parcours.getPath();
+		BFS parcours = new BFS(gs, 1953,1793);
+		System.out.println(parcours.getPath());
+		parcours.printPath();
 	}
 
 }
