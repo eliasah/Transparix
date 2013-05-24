@@ -1,6 +1,6 @@
 package isabelle;
 
-public class Couple<A, B> extends java.lang.Object {
+public class Couple<A, B> {
 
 	private A a;
 	private B b;
@@ -10,11 +10,11 @@ public class Couple<A, B> extends java.lang.Object {
 		b = b0;
 	}
 
-	A first() {
+	public A first() {
 		return a;
 	}
 
-	B second() {
+	public B second() {
 		return b;
 	}
 
