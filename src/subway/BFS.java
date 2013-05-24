@@ -1,73 +1,75 @@
 package subway;
 
+import isabelle.Couple;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import structures.In;
+
 public class BFS {
 
-	/**
-	 * 1  procedure BFS(G,v):
-	 * 2      create a queue Q
-	 * 3      enqueue v onto Q
-	 * 4      mark v
-	 * 5      while Q is not empty:
-	 * 6          t ← Q.dequeue()
-	 * 7          if t is what we are looking for:
-	 * 8              return t
-	 * 9          for all edges e in G.adjacentEdges(t) do
-	 * 10             u ← G.adjacentVertex(t,e)
-	 * 11             if u is not marked:
-	 * 12                  mark u
-	 * 13                  enqueue u onto Q
-	 * 14     return none
-	 */
-
 	ArrayList<String> order;
-	PriorityQueue<Integer> queue;
-	Graph graph;
-	String path;
+	PriorityQueue<Couple> queue;
+	private Graph graph;
+	private String path;
+	private Station depart;
+	private Station arrivee;
+	private HashMap<Integer, Integer> visite;
+	private LinkedList<Couple> avisite;
 
-	public BFS(Graph g,int depart,int arr){
-		graph = g;
-		order = new ArrayList();
-		queue = new PriorityQueue<Integer>();
+	public BFS(Graph g, int d, int a) {
+		// initialisation
+		this.graph = g;
+		this.order = new ArrayList();
+		this.queue = new PriorityQueue<Couple>();
+		this.depart = g.getMap().get(d);
+		this.arrivee = g.getMap().get(a);
+		this.visite = new HashMap<Integer, Integer>();
+		this.avisite = new LinkedList<Couple>();
+
 		HashMap<Integer, String> v;
-
-		queue.add(depart);
-
-		Station s = g.getMap().get(depart);
-		Station a = g.getMap().get(arr);
-		s.setVisited(true);
-		int tmp;
+		Couple c = new Couple<Integer, Integer>(d, 0);
+		queue.add(c);
+		this.depart.setVisited(true);
 		Station temporaire = null;
-		while (!queue.isEmpty()){
-			tmp = queue.poll();
-			System.out.println(tmp);
-			if (tmp == arr){
+
+		// while queue not empty
+		while (!queue.isEmpty()) {
+			c = queue.poll();
+			visite.put((Integer) c.first(), (Integer) c.second());
+			if ((Integer) c.first() == a) {
 				System.out.println("trouvé!");
 				return;
 			}
-			v = s.getVoisins();
-			System.out.println("neighbors : " + v.toString());
 
+			// For all neighbors
+			v = g.getMap().get(c.first()).getVoisins();
+			System.out.println("On est a " + g.getMap().get(c.first()).getNom()
+					+ " neighbors : " + v.toString());
 			Iterator it = v.entrySet().iterator();
 			while (it.hasNext()) {
-				Map.Entry pairs = (Map.Entry)it.next();
-				temporaire = graph.getMap().get((int)pairs.getKey());
-				System.out.println("station : " + temporaire.getNom() + ", ligne : " + pairs.getValue());
+				Map.Entry pairs = (Map.Entry) it.next();
+				temporaire = graph.getMap().get((int) pairs.getKey());
+				System.out.println("station : " + temporaire.getNom()
+						+ ", ligne : " + pairs.getValue());
 
-				if (temporaire.getId() == (int) a.getId()) {
+				if (temporaire.getId() == (int) arrivee.getId()) {
 					System.out.println("trouvé! c'est juste a cote");
 					return;
 				}
-			}
-			temporaire.setVisited(true);
-			queue.add(temporaire.getId());
-		}
 
+				Couple<Integer, Integer> ctmp = new Couple<Integer, Integer>(
+						temporaire.getId(), (Integer) c.first());
+				// if (visite.containsKey((Integer) ctmp.first()) == false)
+				queue.add(ctmp);
+
+			}
+		}
 	}
 }
