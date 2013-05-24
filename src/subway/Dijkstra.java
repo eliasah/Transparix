@@ -9,29 +9,16 @@ import java.util.Map;
 import java.util.PriorityQueue;
 
 public class Dijkstra {
-	Map<String,Integer> dist;
+	Map<String, Integer> dist;
 	Graph gs;
-	
-	public Dijkstra(Graph g,String depart) {
+
+	public Dijkstra(Graph g, String depart) {
 		this.gs = g;
-		init(g,depart);
+		init(g, depart);
 	}
-	
+
 	private void init(Graph g, String depart) {
-		dist = new LinkedHashMap<String, Integer>();
-
-		Iterator<Station> it = g.getMap().iterator();
-
-		while (it.hasNext()) {
-			String act = it.next().getNom();
-			if (act.equals(depart)){
-				dist.put(act, 0);
-				// System.out.println("départ : " + act);
-			} else {
-				dist.put(act, Integer.MAX_VALUE);
-			}
-		}
-		System.out.println("distance : " + dist.toString());
+		// TODO
 	}
-	
+
 }
