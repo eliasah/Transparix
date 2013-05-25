@@ -132,6 +132,7 @@ public class Map extends JPanel {
 			}
 		}
 
+		// FIXME
 		// tracé de l'itinéraire actuellement calculé
 		g.setColor(Color.yellow);
 		stroke = new BasicStroke(5);

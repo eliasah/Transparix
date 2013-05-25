@@ -75,13 +75,12 @@ public class Transparix implements Runnable {
 		// plan de métro
 		map = new Map(this, this.graph, 500, 500);
 		// FIXME ajout d'un itinéraire bidon pour test
-		// FIXME adapter les structures de données au graphe
-		// récupérer les données à partir du graphe
-		// ou modifier la classe Graph ?
-		Graph gs = new Graph();
-		BFS parcours = new BFS(gs, 1953, 1793);
-		LinkedList<Integer> list = parcours.getPath();
-		map.drawPath(list);
+		for (int i=0; i<10; i++) {
+			BFS parcours = new BFS(this.graph, 1953, 1793);
+			LinkedList<Integer> list = parcours.getPath();
+			//map.drawPath(list);
+			System.out.println(list.toString());
+		}
 
 		// panel informations
 		// TODO ajouter une classe InformationsStation qui hérite de JPanel
