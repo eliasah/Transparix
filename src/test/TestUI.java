@@ -2,7 +2,9 @@ package test;
 
 import gui.Hierarchie;
 
+import itinerary.BFS;
 import itinerary.Graph;
+import itinerary.Station;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +14,7 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
@@ -60,6 +63,12 @@ public class TestUI {
 		});
 
 		Hierarchie h = new Hierarchie(graph);
+		Object start = h.getStart();
+		Object end = h.getEnd();
+		// HashMap<Integer, String> mapstations = graph.stationsToHashtable();
+		// Station sStart = mapstations.get(key);
+		// Station sEnd = graph.getStation((int)end);
+		// BFS parcours = new BFS(graph,  ,);
 		frame.getContentPane().add(h,BorderLayout.CENTER);
 		frame.getContentPane().add(quit,BorderLayout.EAST);
 	}
