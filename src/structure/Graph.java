@@ -48,10 +48,16 @@ public class Graph {
 			if (id == c.first())
 				return c.second();
 		}
-		it.remove();
 		return null;
 	}
 
+	public Station getStation(String s){
+		for (Couple<Integer,Station> c:stations) {
+			if (c.second().getName().equals(s))
+				return c.second();
+		}
+		return null;
+	}
 	public Line getLine(String id) {
 		Iterator<Couple<String, Line>> it = this.lines.iterator();
 		while (it.hasNext()) {
@@ -59,7 +65,6 @@ public class Graph {
 			if (id == c.first())
 				return c.second();
 		}
-		it.remove();
 		return null;
 	}
 	
@@ -77,7 +82,6 @@ public class Graph {
 			Couple<Integer, Station> c = it.next();
 			c.second().mark(false);
 		}
-		it.remove();
 	}
 
 	public void resetAvailable() {
@@ -86,7 +90,6 @@ public class Graph {
 			Couple<Integer, Station> c = it.next();
 			c.second().setAvailable(true);
 		}
-		it.remove();
 	}
 
 	/**

@@ -21,12 +21,14 @@ import javax.swing.JFrame;
 
 import structure.Graph;
 import structure.Line;
+import structure.Station;
 
 public class TestUI {
 
 	private final Graph graph = new Graph();
 	private JFrame frame;
-	private Hashtable<String,Line> lines;
+	private Hashtable<String, Line> lines;
+	private Hierarchie h;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -52,6 +54,8 @@ public class TestUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout());
 
+		h = new Hierarchie(graph);
+			
 		JButton quit = new JButton("Quit");
 		quit.setBounds(336, 159, 100, 100);
 		quit.addActionListener(new ActionListener() {
@@ -61,14 +65,29 @@ public class TestUI {
 			}
 		});
 
-		Hierarchie h = new Hierarchie(graph);
-		Object start = h.getStart();
-		Object end = h.getEnd();
-		// HashMap<Integer, String> mapstations = graph.stationsToHashtable();
-		// Station sStart = mapstations.get(key);
-		// Station sEnd = graph.getStation((int)end);
-		// BFS parcours = new BFS(graph,  ,);
+		JButton calcul = new JButton("Calcul");
+		calcul.addActionListener(new ActionListener() {
+			
+			@Override
+			synchronized public void actionPerformed(ActionEvent arg0) {
+				Object start = h.getStart();
+				Object end = h.getEnd();
+				if (start != null && end != null) {
+					Station sStart = graph.getStation(start.toString());
+					Station sEnd = graph.getStation(end.toString());
+					System.out.println("sEnd " + sEnd.toString());
+					System.out.println("sStart " + sStart.toString());
+					BFS parcours = new BFS(graph,sStart.getId(),sEnd.getId());
+					System.out.println(parcours.getPath());
+					parcours.printPath();
+					graph.resetMarks();
+					
+				}
+			}
+		});
+		
 		frame.getContentPane().add(h,BorderLayout.CENTER);
 		frame.getContentPane().add(quit,BorderLayout.EAST);
+		frame.getContentPane().add(calcul,BorderLayout.WEST);
 	}
 }

@@ -56,7 +56,7 @@ public class Hierarchie extends JPanel {
 	}
 
 	public Hierarchie(Graph g) {
-		setLayout(new GridLayout(4, 1));
+		setLayout(new GridLayout(2, 1));
 		graph = g;
 
 		start = new Object();
@@ -84,9 +84,9 @@ public class Hierarchie extends JPanel {
 		scrollPanestart.setViewportView(treestart);
 		scrollPaneend.setViewportView(treeend);
 
-		add(new JLabel("Depart"));
+		//add(new JLabel("Depart"));
 		add(scrollPanestart);
-		add(new JLabel("Arrivee"));
+		//add(new JLabel("Arrivee"));
 		add(scrollPaneend);
 	}
 
@@ -135,16 +135,15 @@ public class Hierarchie extends JPanel {
 			if (e.getSource().equals(treeend) && node.isLeaf()) {
 				end = nodeInfo;
 				/* React to the node selection. */
-				System.out.println("end changed -> start : " + start.toString()
-						+ ", end : " + end.toString());
+				// System.out.println("end changed -> start : " + start.toString()	+ ", end : " + end.toString());
 
 			}
 
 			if (e.getSource().equals(treestart) && node.isLeaf()) {
 				start = nodeInfo;
 				/* React to the node selection. */
-				System.out.println("start change -> start : "
-						+ start.toString() + ", end : " + end.toString());
+				// System.out.println("start change -> start : "
+				//		+ start.toString() + ", end : " + end.toString());
 			}
 		}
 	}

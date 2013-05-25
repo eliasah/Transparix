@@ -27,6 +27,7 @@ public class BFS {
 		this.start = g.getStation(d);
 		this.end = g.getStation(a);
 		this.list = new HashMap<Integer, Integer>();
+		path = new LinkedList<Integer>();
 
 		// 3 enqueue source onto Q
 		queue.add(start.getId());
@@ -40,9 +41,15 @@ public class BFS {
 			// 6 dequeue an item from Q into v
 			int v = queue.poll();
 			Station tmp = graph.getStation(v);
-			// FIXME
-			if (!tmp.isAvailable())
+			if (tmp == null) {
+				queue.add(v);
 				continue;
+			}
+			// FIXME
+			//System.out.println("tmp " + tmp.toString());
+			// FIXME
+			//if (!tmp.isAvailable())
+			//	continue;
 			HashMap<Integer, String> voisins = tmp.getNeighbours();
 			Iterator<Map.Entry<Integer, String>> it = voisins.entrySet()
 					.iterator();
@@ -51,6 +58,9 @@ public class BFS {
 			while (it.hasNext()) {
 				Map.Entry<Integer, String> pairs = it.next();
 				Station stmp = graph.getStation(pairs.getKey());
+				// FIXME
+				if (stmp == null)
+					continue;
 				if (!stmp.isMarked()) {
 					stmp.mark(true);
 					queue.add(stmp.getId());
@@ -62,9 +72,10 @@ public class BFS {
 
 				if (stmp.getId() == end.getId()) {
 					// System.out.println(path);
-					listtopath(a);
+					listToPath(a);
 					// System.out.println(list.toString());
-					System.out.println("trouvé!");
+					// System.out.println("trouvé!");
+					graph.resetMarks();
 					return;
 				}
 
@@ -72,9 +83,9 @@ public class BFS {
 		}
 	}
 
-	private void listtopath(int a) {
+	private void listToPath(int a) {
 		int val = list.get(a);
-		path = new LinkedList<Integer>();
+		if (path == null) path = new LinkedList<Integer>();
 		path.add(val);
 		path.add(a);
 		while (val != 0) {
