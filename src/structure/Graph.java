@@ -1,17 +1,11 @@
-package itinerary;
+package structure;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.AbstractSequentialList;
-import java.util.ArrayList;
-import java.util.HashMap;
+import itinerary.Dijkstra;
+
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import structure.Line;
-import sun.org.mozilla.javascript.commonjs.module.provider.StrongCachingModuleScriptProvider;
 import tools.Couple;
 import tools.Utilities;
 
@@ -58,6 +52,17 @@ public class Graph {
 		return null;
 	}
 
+	public Line getLine(String id) {
+		Iterator<Couple<String, Line>> it = this.lines.iterator();
+		while (it.hasNext()) {
+			Couple<String, Line> c = it.next();
+			if (id == c.first())
+				return c.second();
+		}
+		it.remove();
+		return null;
+	}
+	
 	public int getV() {
 		return v;
 	}

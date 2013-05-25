@@ -2,7 +2,6 @@ package test;
 
 import gui.Hierarchie;
 
-import itinerary.Graph;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +17,7 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import structure.Graph;
 import structure.Line;
 
 public class TestUI {

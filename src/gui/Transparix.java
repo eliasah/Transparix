@@ -1,10 +1,8 @@
 package gui;
 
 import itinerary.BFS;
-import itinerary.Graph;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,9 +18,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import structure.Graph;
 import structure.Line;
 import structure.Station;
-import tools.Extraction;
 
 
 /**
@@ -32,9 +30,6 @@ import tools.Extraction;
  * 
  */
 public class Transparix implements Runnable {
-
-	private final String FILE_STATIONS = "data/data_v1/stations.txt";
-	private final String FILE_LINES = "data/data_v1/lignes.txt";
 
 	private Hashtable<Integer, Station> stations;
 	private Hashtable<String, Line> lines;
@@ -54,8 +49,9 @@ public class Transparix implements Runnable {
 	 * @throws IOException
 	 */
 	public Transparix() {
-		this.stations = Extraction.extractStations(FILE_STATIONS);
-		this.lines = Extraction.extractLines(FILE_LINES);
+		Graph g = new Graph();
+		this.stations = g.stationsToHashtable();
+		this.lines = g.linesToHashtable();
 	}
 
 	/**

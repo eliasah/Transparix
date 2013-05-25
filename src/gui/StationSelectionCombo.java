@@ -17,7 +17,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import structure.Station;
-import tools.Extraction;
+import trash.Extraction;
 
 public class StationSelectionCombo extends JComboBox<String> {
 

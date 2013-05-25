@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+import structure.Graph;
+
 public class Dijkstra {
 	Map<String, Integer> dist;
 	Graph gs;

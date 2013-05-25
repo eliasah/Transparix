@@ -1,10 +1,8 @@
 package gui;
 
-
+import structure.Graph;
 import structure.Line;
 import structure.Station;
-import tools.*;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,12 +11,11 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
-import java.util.Set;
-
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -120,20 +117,26 @@ public class Map extends JPanel {
 
 			// tracé des segments reliant la station à chacun de ses voisins
 			g.setStroke(stroke);
-			LinkedList<Couple<String, Integer>> nList = s.getNeighbours();
-			for (Couple<String, Integer> c : nList) {
-				int idSN = c.second();
+			
+			// FIXME ajouter le graphe dans le constructeur ?
+			Graph graph = new Graph();
+			HashMap<Integer, String> nList = s.getNeighbours();
+			Iterator<Integer> itS = nList.keySet().iterator();
+			Iterator<String> itL = nList.values().iterator();
+			while (itS.hasNext() && itL.hasNext()) {
+				int idSN = itS.next();
 				Station sN = this.stations.get(idSN);
 				int[] coordsSN = this.convertCoordinatesStation(
 						sN.getLatitude(), sN.getLongitude(), this.width,
 						this.height);
-				String idLN = c.first();
+				String idLN = itL.next();
 				Line lN = this.lines.get(idLN);
 				Color colorLN = lN.getColor();
 				g.setColor(colorLN);
 				g.drawLine(coords[0], coords[1], coordsSN[0], coordsSN[1]);
 			}
 		}
+		
 		// tracé de l'itinéraire actuellement calculé
 		g.setColor(Color.yellow);
 		stroke = new BasicStroke(5);
