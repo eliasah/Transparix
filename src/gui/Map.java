@@ -1,4 +1,9 @@
-package isabelle;
+package gui;
+
+
+import structure.Line;
+import structure.Station;
+import tools.*;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

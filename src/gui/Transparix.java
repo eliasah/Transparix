@@ -1,4 +1,7 @@
-package isabelle;
+package gui;
+
+import itinerary.BFS;
+import itinerary.Graph;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,8 +20,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import subway.BFS;
-import subway.Graph;
+import structure.Line;
+import structure.Station;
+import tools.Extraction;
+
 
 /**
  * TODO

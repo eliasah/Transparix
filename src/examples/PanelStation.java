@@ -36,7 +36,7 @@ public class PanelStation extends JPanel {
 		
 		JComboBox cbstation = new JComboBox(o);
 		cbstation.setBounds(412, 33, 236, 24);
-		AutoCompletion.enable(cbstation);
+		// FIXME AutoCompletion.enable(cbstation);
 		add(cbstation);
 	}
 }

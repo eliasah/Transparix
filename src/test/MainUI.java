@@ -1,4 +1,4 @@
-package examples;
+package test;
 
 import java.awt.EventQueue;
 
@@ -7,6 +7,9 @@ import javax.swing.JPanel;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
+
+import examples.PanelStation;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;

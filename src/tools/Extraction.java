@@ -1,6 +1,8 @@
-package isabelle;
+package tools;
+
 
 import java.awt.Color;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,23 +10,29 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
+import structure.Line;
+import structure.Station;
+
+
 /**
  * Les méthodes fournies dans cette classe permettent de lire et d'enregistrer
  * les données fournies par la RATP.
  * 
  * @author isabelle
- *
+ * 
  */
 public class Extraction {
 
 	/**
-	 * Extrait les informations sur les stations qui composent 
-	 * le Métro Parisien.
-	 * @param filePath Le chemin du fichier contenant les stations.
+	 * Extrait les informations sur les stations qui composent le Métro
+	 * Parisien.
+	 * 
+	 * @param filePath
+	 *            Le chemin du fichier contenant les stations.
 	 * @throws IOException
 	 */
-	public static Hashtable<Integer,Station> extractStations(String filePath) {
-		Hashtable<Integer,Station> stations = new Hashtable<Integer,Station>();
+	public static Hashtable<Integer, Station> extractStations(String filePath) {
+		Hashtable<Integer, Station> stations = new Hashtable<Integer, Station>();
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(filePath));
@@ -42,15 +50,14 @@ public class Extraction {
 					for (String s : linesStations) {
 						lines.add(s);
 					}
-					LinkedList<Couple<String,Integer>> neighbours = 
-							new LinkedList<Couple<String,Integer>>();
+					LinkedList<Couple<String, Integer>> neighbours = new LinkedList<Couple<String, Integer>>();
 					String[] neighboursLinesStations = args[6].split(";");
 					for (String s : neighboursLinesStations) {
 						String[] tmp = s.split(",");
-						neighbours.add(new Couple<String,Integer>(tmp[0], 
+						neighbours.add(new Couple<String, Integer>(tmp[0],
 								Integer.parseInt(tmp[1])));
 					}
-					stations.put(id, new Station(id, name, city, latitude, 
+					stations.put(id, new Station(id, name, city, latitude,
 							longitude, lines, neighbours));
 				}
 				br.close();
@@ -59,25 +66,26 @@ public class Extraction {
 				System.err.println("Erreur lors de la lecture d'un entier");
 			} catch (IOException e) {
 				// TODO afficher un message graphique
-				System.err.println("Erreur lors de la lecture du fichier" +
-						"de données concernant les lignes du métro parisien");
+				System.err.println("Erreur lors de la lecture du fichier"
+						+ "de données concernant les lignes du métro parisien");
 			}
 		} catch (FileNotFoundException e1) {
 			// TODO afficher un message graphique
-			System.err.println("Impossible de trouver le fichier de données" +
-					"concernant les lignes du métro parisien");
+			System.err.println("Impossible de trouver le fichier de données"
+					+ "concernant les lignes du métro parisien");
 		}
 		return stations;
 	}
 
 	/**
-	 * Extrait les informations sur les lignes qui composent 
-	 * le Métro Parisien.
-	 * @param filePath Le chemin du fichier contenant les lignes.
+	 * Extrait les informations sur les lignes qui composent le Métro Parisien.
+	 * 
+	 * @param filePath
+	 *            Le chemin du fichier contenant les lignes.
 	 * @throws IOException
 	 */
-	public static Hashtable<String,Line> extractLines(String filePath) {
-		Hashtable<String,Line> lines = new Hashtable<String,Line>();
+	public static Hashtable<String, Line> extractLines(String filePath) {
+		Hashtable<String, Line> lines = new Hashtable<String, Line>();
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(filePath));
@@ -100,8 +108,8 @@ public class Extraction {
 					int r = Integer.parseInt(rgb[0]);
 					int g = Integer.parseInt(rgb[1]);
 					int b = Integer.parseInt(rgb[2]);
-					lines.put(id, new Line(id, idDepartures, idArrivals, 
-							new Color(r,g,b)));
+					lines.put(id, new Line(id, idDepartures, idArrivals,
+							new Color(r, g, b)));
 				}
 				br.close();
 			} catch (NumberFormatException e) {
@@ -109,16 +117,15 @@ public class Extraction {
 				System.err.println("Erreur lors de la lecture d'un entier");
 			} catch (IOException e) {
 				// TODO afficher un message graphique
-				System.err.println("Erreur lors de la lecture du fichier" +
-						"de données concernant les lignes du métro parisien");
+				System.err.println("Erreur lors de la lecture du fichier"
+						+ "de données concernant les lignes du métro parisien");
 			}
 		} catch (FileNotFoundException e1) {
 			// TODO afficher un message graphique
-			System.err.println("Impossible de trouver le fichier de données" +
-					"concernant les lignes du métro parisien");
+			System.err.println("Impossible de trouver le fichier de données"
+					+ "concernant les lignes du métro parisien");
 		}
 		return lines;
 	}
-
 
 }

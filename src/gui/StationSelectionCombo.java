@@ -1,4 +1,5 @@
-package isabelle;
+package gui;
+
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -14,6 +15,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
+
+import structure.Station;
+import tools.Extraction;
 
 public class StationSelectionCombo extends JComboBox<String> {
 

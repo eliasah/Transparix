@@ -1,4 +1,4 @@
-package isabelle;
+package structure;
 import java.awt.Color;
 import java.util.LinkedList;
 

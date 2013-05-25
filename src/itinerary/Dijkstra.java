@@ -1,4 +1,4 @@
-package subway;
+package itinerary;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,6 +19,6 @@ public class Dijkstra {
 
 	private void init(Graph g, String depart) {
 		// TODO
-	}
+	}	
 
 }

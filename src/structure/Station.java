@@ -1,5 +1,7 @@
-package isabelle;
+package structure;
 import java.util.LinkedList;
+
+import tools.Couple;
 
 /**
  * Cette classe permet de sauvegarder les informations sur une 

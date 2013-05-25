@@ -1,4 +1,4 @@
-package subway;
+package tools;
 
 public class Couple<K,V>{
 
