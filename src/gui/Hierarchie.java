@@ -1,7 +1,5 @@
 package gui;
 
-import itinerary.Graph;
-import itinerary.Station;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -30,7 +28,9 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreeSelectionModel;
 
+import structure.Graph;
 import structure.Line;
+import structure.Station;
 import tools.Couple;
 import tools.Utilities;
 import java.awt.GridLayout;
@@ -101,7 +101,7 @@ public class Hierarchie extends JPanel {
 					.iterator();
 			while (it2.hasNext()) {
 				Station stmp = it2.next().second();
-				for (String s : stmp.getLignes()) {
+				for (String s : stmp.getLines()) {
 					if (ctmp.first().equals(s)) {
 						s = stmp.getName();
 						if (ctmp.second().getIdArrivals()

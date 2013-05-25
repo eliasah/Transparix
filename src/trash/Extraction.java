@@ -1,4 +1,4 @@
-package tools;
+package trash;
 
 
 import java.awt.Color;
@@ -12,6 +12,7 @@ import java.util.LinkedList;
 
 import structure.Line;
 import structure.Station;
+import tools.Couple;
 
 
 /**

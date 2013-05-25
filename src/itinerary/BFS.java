@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 
+import structure.Graph;
+import structure.Station;
+
 public class BFS {
 
 	private LinkedList<Integer> queue;
@@ -40,7 +43,7 @@ public class BFS {
 			// FIXME
 			if (!tmp.isAvailable())
 				continue;
-			HashMap<Integer, String> voisins = tmp.getVoisins();
+			HashMap<Integer, String> voisins = tmp.getNeighbours();
 			Iterator<Map.Entry<Integer, String>> it = voisins.entrySet()
 					.iterator();
 

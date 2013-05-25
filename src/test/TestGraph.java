@@ -2,10 +2,11 @@ package test;
 
 import static org.junit.Assert.*;
 import itinerary.BFS;
-import itinerary.Graph;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import structure.Graph;
 
 public class TestGraph {
 

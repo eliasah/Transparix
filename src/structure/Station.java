@@ -1,38 +1,34 @@
 package structure;
-import java.util.LinkedList;
 
-import tools.Couple;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
- * Cette classe permet de sauvegarder les informations sur une 
- * station de métro, à savoir son identifiant dans la base de données 
- * de la RATP, son nom, la ville où elle se situe et ses coordonnées 
- * géographiques, les lignes auxquelles elle appartient et les stations
- * qui lui sont directement accessibles. 
- * 
- * @author isabelle
+ * @author Abou Haydar Elias - Univ. Paris Denis Diderot
  *
  */
-public class Station {
-
-	private int id;
-	private String name, city;
-	private float latitude, longitude;
-	private LinkedList<String> lines;
-	private LinkedList<Couple<String,Integer>> neighbours;
+public class Station{
 	
-	/**
-	 * Constructeur d'une station.
-	 * @param id L'identifiant de la station.
-	 * @param name Le nom de la station.
-	 * @param city La ville où se situe la station.
-	 * @param latitude La latitude où se situe la station.
-	 * @param longitude La longitude où se situe la station.
-	 * @param lines Les lignes auxquelles appartient la station.
-	 * @param neighbours Les stations voisines de la station.
-	 */
-	public Station(int id, String name, String city, float latitude, float longitude,
-			LinkedList<String> lines, LinkedList<Couple<String,Integer>> neighbours) {
+	private boolean available;
+	private String  city;
+	private int distance;
+	private int id;
+	private float latitude;
+	private ArrayList<String> lines;
+	private float longitude;
+	private boolean marked;
+	private String name;
+	private HashMap<Integer,String> neighbours; // nom, ligne
+	private boolean visited;
+
+	public Station() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Station(int id, String name, String city, float latitude,
+			float longitude, ArrayList<String> lines,
+			HashMap<Integer, String> neighbours, boolean visited) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.city = city;
@@ -40,73 +36,110 @@ public class Station {
 		this.longitude = longitude;
 		this.lines = lines;
 		this.neighbours = neighbours;
+		this.visited = visited;
+		this.distance = 1;
+	}
+
+	public Station(String name) {
+		this.name = name;
+		this.distance = 1;
 	}
 	
-	/**
-	 * Renvoie l'identifiant de la station.
-	 * @return L'identifiant de la station.
-	 */
+	public Station(String name, int distance) {
+		this.name = name;
+		this.distance = distance;
+	}
+
+	public int getDistance() {
+		return distance;
+	}
+
 	public int getId() {
-		return this.id;
+		return id;
 	}
 
-	/**
-	 * Renvoie le nom de la station.
-	 * @return Le nom de la station.
-	 */
-	public String getName() {
-		return this.name;
-	}
-
-	/**
-	 * Renvoie la ville où se situe la station.
-	 * @return La ville où se situe la station.
-	 */
-	public String getCity() {
-		return this.city;
-	}
-
-	/**
-	 * Renvoie la latitude de la station.
-	 * @return La latitude de la station.
-	 */
 	public float getLatitude() {
-		return this.latitude;
+		return latitude;
 	}
 
-	/**
-	 * Renvoie la longitude de la station.
-	 * @return La longitude de la station.
-	 */
+	public ArrayList<String> getLines() {
+		return lines;
+	}
+
 	public float getLongitude() {
-		return this.longitude;
+		return longitude;
 	}
 
-	/**
-	 * Renvoie la liste des lignes auxquelles appartient la station.
-	 * @return La liste des lignes auxquelles appartient la station.
-	 */
-	public LinkedList<String> getLines() {
-		return this.lines;
+	public String getName() {
+		return name;
 	}
 
-	/**
-	 * Renvoie la liste des voisins de la station.
-	 * @return La liste des voisins de la station.
-	 */
-	public LinkedList<Couple<String, Integer>> getNeighbours() {
-		return this.neighbours;
+	public String getCity() {
+		return city;
+	}
+
+	public HashMap<Integer, String> getNeighbours() {
+		return neighbours;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public boolean isMarked() {
+		return marked;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void mark(boolean marked) {
+		this.marked = marked;
+	}
+
+	public void setAvailable(boolean b){
+		available = b;
 	}
 	
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setLatitude(float latitude) {
+		this.latitude = latitude;
+	}
+
+	public void setLines(ArrayList<String> lines) {
+		this.lines = lines;
+	}
+
+	public void setLongitude(float longitude) {
+		this.longitude = longitude;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setVisited(boolean visited) {
+		this.visited = visited;
+	}
+
+	public void setNeighbours(HashMap<Integer, String> neighbours) {
+		this.neighbours = neighbours;
+	}
+
 	@Override
 	public String toString() {
-		String str = "";
-		str += this.id + ", ";
-		str += this.name + ", ";
-		str += this.city + ", ";
-		str += this.latitude + ", ";
-		str += this.longitude + ", ";
-		// TODO afficher lignes et voisins 
-		return str;
+		return name + ", " + lines;// + " , voisins = " + voisins;
 	}
 }
