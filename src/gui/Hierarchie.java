@@ -15,6 +15,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -37,16 +39,35 @@ public class Hierarchie extends JPanel {
 	private final String FILE_LINES = "data/data_v1/lignes.txt";
 	private final String FILE_STATIONS = "data/data_v1/stations.txt";
 	private final Graph graph;
+	private PriorityQueue<Object> selection;
 
 	public Hierarchie(Graph g) {
 		graph = g;
-
+		selection = new PriorityQueue();
 		dmlines = new DefaultMutableTreeNode("Lignes");
 		tree = new JTree(dmlines);
 		scrollPane = new JScrollPane();
 
+		tree.getSelectionModel().setSelectionMode(
+				TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
+
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
+				DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree
+						.getLastSelectedPathComponent();
+				/* if nothing is selected */
+				if (node == null)
+					return;
+				Object nodeInfo = node.getUserObject();
+				Object root = node.getRoot();
+				
+				if (tree.getSelectionCount() > 2 || selection.size() == 2) 
+					selection.poll();
+				/* retrieve the node that was selected */
+				if (node.isLeaf()) 
+					selection.add(nodeInfo);
+				/* React to the node selection. */
+				System.out.println(selection.toString());
 			}
 		});
 
