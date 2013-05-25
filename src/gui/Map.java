@@ -28,8 +28,7 @@ import javax.swing.JPanel;
 public class Map extends JPanel {
 
 	private Transparix parent;
-	private Hashtable<Integer, Station> stations;
-	private Hashtable<String, Line> lines;
+	private Graph graph;
 	private LinkedList<Integer> path;
 	private BufferedImage image;
 	private int width, height;
@@ -47,11 +46,9 @@ public class Map extends JPanel {
 	 * @param height
 	 *            La longueur de la carte.
 	 */
-	public Map(Transparix p, Hashtable<Integer, Station> stations,
-			Hashtable<String, Line> lines, int width, int height) {
+	public Map(Transparix p, Graph graph, int width, int height) {
+		this.graph = graph;
 		this.parent = p;
-		this.stations = stations;
-		this.lines = lines;
 		this.path = new LinkedList<Integer>();
 		this.width = width;
 		this.height = height;
@@ -103,8 +100,8 @@ public class Map extends JPanel {
 		g.fillRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
 
 		// itération sur l'ensemble des stations
-		Iterator<Entry<Integer, Station>> it = this.stations.entrySet()
-				.iterator();
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
@@ -117,26 +114,24 @@ public class Map extends JPanel {
 
 			// tracé des segments reliant la station à chacun de ses voisins
 			g.setStroke(stroke);
-			
-			// FIXME ajouter le graphe dans le constructeur ?
-			Graph graph = new Graph();
+
 			HashMap<Integer, String> nList = s.getNeighbours();
 			Iterator<Integer> itS = nList.keySet().iterator();
 			Iterator<String> itL = nList.values().iterator();
 			while (itS.hasNext() && itL.hasNext()) {
 				int idSN = itS.next();
-				Station sN = this.stations.get(idSN);
+				Station sN = this.graph.stationsToHashtable().get(idSN);
 				int[] coordsSN = this.convertCoordinatesStation(
 						sN.getLatitude(), sN.getLongitude(), this.width,
 						this.height);
 				String idLN = itL.next();
-				Line lN = this.lines.get(idLN);
+				Line lN = this.graph.linesToHashtable().get(idLN);
 				Color colorLN = lN.getColor();
 				g.setColor(colorLN);
 				g.drawLine(coords[0], coords[1], coordsSN[0], coordsSN[1]);
 			}
 		}
-		
+
 		// tracé de l'itinéraire actuellement calculé
 		g.setColor(Color.yellow);
 		stroke = new BasicStroke(5);
@@ -144,15 +139,16 @@ public class Map extends JPanel {
 		Station tmp = null;
 		Iterator<Integer> itP = path.iterator();
 		while (itP.hasNext()) {
-			Station s = this.stations.get(itP.next());
+			Station s = this.graph.stationsToHashtable().get(itP.next());
 			if (tmp == null) {
 				tmp = s;
 			} else {
-				int[] coords1 = this.convertCoordinatesStation(tmp.getLatitude(),
-						tmp.getLongitude(), this.width, this.height);
+				int[] coords1 = this.convertCoordinatesStation(
+						tmp.getLatitude(), tmp.getLongitude(), this.width,
+						this.height);
 				if (!itP.hasNext()) // s1 est la station d'arrivée
 					break;
-				Station s2 = this.stations.get(itP.next());
+				Station s2 = this.graph.stationsToHashtable().get(itP.next());
 				int[] coords2 = this.convertCoordinatesStation(
 						s2.getLatitude(), s2.getLongitude(), this.width,
 						this.height);
@@ -179,8 +175,8 @@ public class Map extends JPanel {
 	 *         station n'est trouvée, renvoie null.
 	 */
 	public Station stationPressed(int x, int y) {
-		Iterator<Entry<Integer, Station>> it = this.stations.entrySet()
-				.iterator();
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
@@ -232,8 +228,8 @@ public class Map extends JPanel {
 	 */
 	public double getLatitudeMax() {
 		float max = Float.MIN_VALUE;
-		Iterator<Entry<Integer, Station>> it = this.stations.entrySet()
-				.iterator();
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			if (s.getLatitude() > max)
@@ -249,8 +245,8 @@ public class Map extends JPanel {
 	 */
 	public double getLatitudeMin() {
 		float min = Float.MAX_VALUE;
-		Iterator<Entry<Integer, Station>> it = this.stations.entrySet()
-				.iterator();
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			// java.util.Iterator<Station> it = this.stations.iterator();
@@ -269,8 +265,8 @@ public class Map extends JPanel {
 	 */
 	public double getLongitudeMax() {
 		float max = Float.MIN_VALUE;
-		Iterator<Entry<Integer, Station>> it = this.stations.entrySet()
-				.iterator();
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			if (s.getLongitude() > max)
@@ -286,8 +282,8 @@ public class Map extends JPanel {
 	 */
 	public double getLongitudeMin() {
 		float min = Float.MAX_VALUE;
-		Iterator<Entry<Integer, Station>> it = this.stations.entrySet()
-				.iterator();
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			if (s.getLongitude() < min)

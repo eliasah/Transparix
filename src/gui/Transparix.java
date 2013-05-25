@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -19,9 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import structure.Graph;
-import structure.Line;
-import structure.Station;
-
 
 /**
  * TODO
@@ -31,8 +27,7 @@ import structure.Station;
  */
 public class Transparix implements Runnable {
 
-	private Hashtable<Integer, Station> stations;
-	private Hashtable<String, Line> lines;
+	private Graph graph;
 
 	private JFrame frame;
 	private JMenuBar menubar;
@@ -49,9 +44,7 @@ public class Transparix implements Runnable {
 	 * @throws IOException
 	 */
 	public Transparix() {
-		Graph g = new Graph();
-		this.stations = g.stationsToHashtable();
-		this.lines = g.linesToHashtable();
+		this.graph = new Graph();
 	}
 
 	/**
@@ -80,7 +73,7 @@ public class Transparix implements Runnable {
 		menubar.add(fichier);
 
 		// plan de métro
-		map = new Map(this, stations, lines, 500, 500);
+		map = new Map(this, this.graph, 500, 500);
 		// FIXME ajout d'un itinéraire bidon pour test
 		// FIXME adapter les structures de données au graphe
 		// récupérer les données à partir du graphe
@@ -99,7 +92,8 @@ public class Transparix implements Runnable {
 
 		// panel recherche station de métro
 		// TODO
-		stationSelection = new StationSelectionCombo(this.stations.values());
+		stationSelection = new StationSelectionCombo(this.graph
+				.stationsToHashtable().values());
 
 		// panel recherche itinéraire
 		// TODO
