@@ -9,8 +9,8 @@ public class BFS {
 
 	private LinkedList<Integer> queue;
 	private Graph graph;
-	private Station depart;
-	private Station arrivee;
+	private Station start;
+	private Station end;
 	private LinkedList<Integer> tmppath;
 	private LinkedList<Integer> path;
 	private HashMap<Integer, Integer> list;
@@ -21,16 +21,16 @@ public class BFS {
 		this.tmppath = new LinkedList<Integer>();
 		// 2 create a queue Q
 		this.queue = new LinkedList<Integer>();
-		this.depart = g.getStation(d);
-		this.arrivee = g.getStation(a);
+		this.start = g.getStation(d);
+		this.end = g.getStation(a);
 		this.list = new HashMap<Integer, Integer>();
 
 		// 3 enqueue source onto Q
-		queue.add(depart.getId());
-		list.put(depart.getId(), 0);
+		queue.add(start.getId());
+		list.put(start.getId(), 0);
 
 		// 4 mark source
-		this.depart.mark(true);
+		this.start.mark(true);
 
 		// 5 while queue is not empty:
 		while (!queue.isEmpty()) {
@@ -54,7 +54,7 @@ public class BFS {
 					// " vers " + stmp.getNom());
 				}
 
-				if (stmp.getId() == arrivee.getId()) {
+				if (stmp.getId() == end.getId()) {
 					// System.out.println(path);
 					listtopath(a);
 					// System.out.println(list.toString());

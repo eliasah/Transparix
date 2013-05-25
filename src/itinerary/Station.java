@@ -12,12 +12,12 @@ import java.util.LinkedList;
 public class Station{
 	int id;
 	int distance;
-	String nom;
-	String  ville;
+	String name;
+	String  city;
 	float latitude;
 	float longitude;
-	ArrayList<String> lignes;
-	HashMap<Integer,String> voisins; // ligne , nom
+	ArrayList<String> lines;
+	HashMap<Integer,String> neighbours; // ligne , nom
 	boolean visited;
 	boolean marked;
 
@@ -30,7 +30,7 @@ public class Station{
 	}
 
 	public Station(String nom) {
-		this.nom = nom;
+		this.name = nom;
 		this.distance = 1;
 	}
 	
@@ -39,18 +39,18 @@ public class Station{
 			HashMap<Integer, String> voisins, boolean visited) {
 		super();
 		this.id = id;
-		this.nom = nom;
-		this.ville = ville;
+		this.name = nom;
+		this.city = ville;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.lignes = lignes;
-		this.voisins = voisins;
+		this.lines = lignes;
+		this.neighbours = voisins;
 		this.visited = visited;
 		this.distance = 1;
 	}
 
 	public Station(String nom, int distance) {
-		this.nom = nom;
+		this.name = nom;
 		this.distance = distance;
 	}
 
@@ -66,20 +66,20 @@ public class Station{
 		this.id = id;
 	}
 
-	public String getNom() {
-		return nom;
+	public String getName() {
+		return name;
 	}
 
-	public void setNom(String nom) {
-		this.nom = nom;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getVille() {
-		return ville;
+		return city;
 	}
 
 	public void setVille(String ville) {
-		this.ville = ville;
+		this.city = ville;
 	}
 
 	public float getLatitude() {
@@ -99,19 +99,19 @@ public class Station{
 	}
 
 	public ArrayList<String> getLignes() {
-		return lignes;
+		return lines;
 	}
 
 	public void setLignes(ArrayList<String> lignes) {
-		this.lignes = lignes;
+		this.lines = lignes;
 	}
 
 	public HashMap<Integer, String> getVoisins() {
-		return voisins;
+		return neighbours;
 	}
 
 	public void setVoisins(HashMap<Integer, String> voisins) {
-		this.voisins = voisins;
+		this.neighbours = voisins;
 	}
 
 	public boolean isVisited() {
@@ -124,7 +124,7 @@ public class Station{
 
 	@Override
 	public String toString() {
-		return nom + ", " + lignes;// + " , voisins = " + voisins;
+		return name + ", " + lines;// + " , voisins = " + voisins;
 	}
 
 	public int getDistance() {
