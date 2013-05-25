@@ -37,6 +37,9 @@ public class BFS {
 			// 6 dequeue an item from Q into v
 			int v = queue.poll();
 			Station tmp = graph.getStation(v);
+			// FIXME
+			if (!tmp.isAvailable())
+				continue;
 			HashMap<Integer, String> voisins = tmp.getVoisins();
 			Iterator<Map.Entry<Integer, String>> it = voisins.entrySet()
 					.iterator();

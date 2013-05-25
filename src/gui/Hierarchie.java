@@ -1,8 +1,11 @@
 package gui;
 
+import itinerary.Graph;
 import itinerary.Station;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,46 +30,53 @@ import structure.Line;
 import tools.Couple;
 import tools.Utilities;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Default;
-
-
-
 public class Hierarchie extends JPanel {
 	private DefaultMutableTreeNode dmlines;
 	private JTree tree;
 	private JScrollPane scrollPane;
 	private final String FILE_LINES = "data/data_v1/lignes.txt";
-	private LinkedList<Couple<String, Line>> lines;
+	private final String FILE_STATIONS = "data/data_v1/stations.txt";
+	private final Graph graph;
 
-	public Hierarchie() {
-		setLayout(null);
-		lines = new LinkedList<Couple<String, Line>>();
+	public Hierarchie(Graph g) {
+		graph = g;
+
 		dmlines = new DefaultMutableTreeNode("Lignes");
 		tree = new JTree(dmlines);
 		scrollPane = new JScrollPane();
-		lines = Utilities.extractLines(FILE_LINES);
 
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 			}
 		});
 
-		Iterator<Couple<String, Line>> it = lines.iterator();
-		while (it.hasNext()) {
-			Couple<String, Line> ctmp = it.next();
+		Iterator<Couple<String, Line>> it1 = g.getLines().iterator();
+		while (it1.hasNext()) {
+			Couple<String, Line> ctmp = it1.next();
 			// System.out.println(ctmp.first());
-			DefaultMutableTreeNode treenode = new DefaultMutableTreeNode(ctmp.second().getId());
-			treenode.add(new DefaultMutableTreeNode(ctmp.second().getIdArrivals()));
-			treenode.add(new DefaultMutableTreeNode(ctmp.second().getIdDepartures()));
+			DefaultMutableTreeNode treenode = new DefaultMutableTreeNode(ctmp
+					.second().getId());
+			Iterator<Couple<Integer, Station>> it2 = g.getStations().iterator();
+			while (it2.hasNext()) {
+				Station stmp = it2.next().second();
+				for (String s : stmp.getLignes()) {
+					if (ctmp.first().equals(s)) {
+						s = stmp.getName();
+						if (ctmp.second().getIdArrivals()
+								.contains(stmp.getId())
+								|| ctmp.second().getIdDepartures()
+										.contains(stmp.getId()))
+							s += " - Terminus";
+						treenode.add(new DefaultMutableTreeNode(s));
+					}
+				}
+			}
 			dmlines.add(treenode);
-			
-		}
 
-		scrollPane.setBounds(12, 0, 426, 404);
+		}
+		setLayout(new BorderLayout());
 		scrollPane.setViewportView(tree);
 		add(scrollPane);
 
-		// System.out.println(lines.toString());
 	}
 }

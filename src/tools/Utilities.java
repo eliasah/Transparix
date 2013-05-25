@@ -41,7 +41,7 @@ public class Utilities {
 				HashMap<Integer, String> neighbours = new HashMap<Integer, String>();
 				String[] neighboursLinesStations = args[6].split(";");
 				// FIXME
-				System.out.println(neighboursLinesStations.toString());
+				// System.out.println(neighboursLinesStations.toString());
 				for (String s : neighboursLinesStations) {
 					String[] tmp = s.split(",");
 					neighbours.put(Integer.parseInt(tmp[1]), tmp[0]);
@@ -52,6 +52,7 @@ public class Utilities {
 				Couple<Integer, Station> tmp = new Couple<Integer, Station>(
 						s.getId(), s);
 				map.add(tmp);
+				s.setAvailable(true);
 			}
 			br.close();
 		} catch (IOException e) {
@@ -99,4 +100,5 @@ public class Utilities {
 		}
 		return lines;
 	}
+	
 }

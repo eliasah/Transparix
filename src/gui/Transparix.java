@@ -89,7 +89,7 @@ public class Transparix implements Runnable {
 		// FIXME adapter les structures de données au graphe
 		// récupérer les données à partir du graphe
 		// ou modifier la classe Graph ?
-		Graph gs = new Graph(FILE_STATIONS);
+		Graph gs = new Graph();
 		BFS parcours = new BFS(gs, 1953, 1793);
 		LinkedList<Integer> list = parcours.getPath();
 		map.drawPath(list);

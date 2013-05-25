@@ -2,6 +2,8 @@ package test;
 
 import gui.Hierarchie;
 
+import itinerary.Graph;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
@@ -20,12 +22,10 @@ import structure.Line;
 
 public class TestUI {
 
+	private final Graph graph = new Graph();
 	private JFrame frame;
 	private Hashtable<String,Line> lines;
-
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -40,16 +40,10 @@ public class TestUI {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public TestUI() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -65,9 +59,8 @@ public class TestUI {
 			}
 		});
 
-		Hierarchie h = new Hierarchie();
-		h.setBounds(100, 100, 100, 100);
-		frame.getContentPane().add(h);
-		// frame.getContentPane().add(quit);
+		Hierarchie h = new Hierarchie(graph);
+		frame.getContentPane().add(h,BorderLayout.CENTER);
+		frame.getContentPane().add(quit,BorderLayout.EAST);
 	}
 }
