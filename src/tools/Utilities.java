@@ -19,8 +19,9 @@ public class Utilities {
 	 * 
 	 * @param filePath
 	 */
-	public static LinkedList<Couple<Integer,Station>> fillwithStations(String filePath) {
-		LinkedList<Couple<Integer, Station>> map = new LinkedList<>();
+	public static LinkedList<Couple<Integer, Station>> fillwithStations(
+			String filePath) {
+		LinkedList<Couple<Integer, Station>> map = new LinkedList<Couple<Integer, Station>>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filePath));
 			String line = "";
@@ -67,7 +68,7 @@ public class Utilities {
 	 * @throws IOException
 	 */
 	public static LinkedList<Couple<String, Line>> extractLines(String filePath) {
-		LinkedList<Couple<String, Line>> lines = new LinkedList<>();
+		LinkedList<Couple<String, Line>> lines = new LinkedList<Couple<String, Line>>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filePath));
 			String line = "";
