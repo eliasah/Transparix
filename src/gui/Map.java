@@ -4,6 +4,7 @@ import structure.Graph;
 import structure.Line;
 import structure.Station;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -11,8 +12,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -23,7 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
- * Cette classe représente le panneau d'affichage du plan du métro.
+ * Cette classe represente le panneau d'affichage du plan du metro.
  * 
  * @author isabelle
  * 
@@ -38,12 +37,12 @@ public class Map extends JPanel {
 	private boolean zoom = false;
 
 	/**
-	 * Constructeur d'un plan de métro.
+	 * Constructeur d'un plan de metro.
 	 * 
 	 * @param stations
-	 *            La liste des stations à afficher.
+	 *            La liste des stations a afficher.
 	 * @param lines
-	 *            La liste des lignes à afficher.
+	 *            La liste des lignes a afficher.
 	 * @param width
 	 *            La largeur de la carte.
 	 * @param height
@@ -73,7 +72,7 @@ public class Map extends JPanel {
 		Graphics2D g = (Graphics2D) gg;
 
 		if (!this.zoom) {
-			// mise a� jour des nouvelles dimensions
+			// mise a jour des nouvelles dimensions
 			Dimension dim = getSize();
 			this.width = dim.getWidth() < dim.getHeight() ? (int) dim
 					.getWidth() : (int) dim.getHeight();// FIXME
@@ -118,7 +117,7 @@ public class Map extends JPanel {
 		});
 		this.add(bMinus);
 
-		// itération sur l'ensemble des stations
+		// iteration sur l'ensemble des stations
 		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
 				.entrySet().iterator();
 		while (it.hasNext()) {
@@ -136,7 +135,7 @@ public class Map extends JPanel {
 			bStation.addActionListener(sl);
 			this.add(bStation);
 
-			// tracé des segments reliant la station à chacun de ses voisins
+			// trace des segments reliant la station a chacun de ses voisins
 			g.setStroke(stroke);
 			HashMap<Integer, String> nList = s.getNeighbours();
 			Iterator<Integer> itS = nList.keySet().iterator();
@@ -170,7 +169,7 @@ public class Map extends JPanel {
 				int[] coords1 = this.convertCoordinatesStation(
 						tmp.getLatitude(), tmp.getLongitude(), this.width,
 						this.height);
-				if (!itP.hasNext()) // s1 est la station d'arrivée
+				if (!itP.hasNext()) // s1 est la station d'arrivee
 					break;
 				Station s2 = this.graph.stationsToHashtable().get(itP.next());
 				int[] coords2 = this.convertCoordinatesStation(
@@ -202,17 +201,17 @@ public class Map extends JPanel {
 	}
 
 	/**
-	 * Calcule les coordonnées x et y dans un plan de width par height pixels.
+	 * Calcule les coordonnees x et y dans un plan de width par height pixels.
 	 * 
 	 * @param latitude
-	 *            La latitude du point à afficher.
+	 *            La latitude du point a afficher.
 	 * @param longitude
-	 *            La longitude du point à afficher.
+	 *            La longitude du point a afficher.
 	 * @param width
 	 *            La largeur de la carte.
 	 * @param height
 	 *            La hauteur de la carte.
-	 * @return Les coordonnées x et y.
+	 * @return Les coordonnees x et y.
 	 */
 	public int[] convertCoordinatesStation(double latitude, double longitude,
 			int width, int height) {

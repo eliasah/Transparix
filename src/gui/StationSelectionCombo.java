@@ -38,7 +38,7 @@ public class StationSelectionCombo extends JComboBox<String> {
 	public StationSelectionCombo(Collection<Station> stations) {
 		super();
 		this.stations = stations;
-		// génération du modèle de données à partir des noms de stations
+		// generation du modele de donnees a partir des noms de stations
 		Vector<String> values = new Vector<String>();
 		Iterator<Station> it = stations.iterator();
 		while (it.hasNext())
@@ -46,13 +46,13 @@ public class StationSelectionCombo extends JComboBox<String> {
 		Collections.sort(values, this.comp);
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(
 				values);
-		// ajout du modèle de données à afficher
+		// ajout du modele de donnees a afficher
 		this.setModel(model);
-		// aucune station n'est sélectionnée au départ
+		// aucune station n'est selectionnee au depart
 		this.setSelectedIndex(-1);
-		// rend la combobox éditable
+		// rend la combobox editable
 		this.setEditable(true);
-		// récupération de l'éditeur de la combobox
+		// recuperation de l'editeur de la combobox
 		this.jtf = (JTextField) this.getEditor().getEditorComponent();
 		// ajout d'un listener sur la combobox
 		jtf.getDocument().addDocumentListener(new DocumentListener() {
@@ -73,9 +73,9 @@ public class StationSelectionCombo extends JComboBox<String> {
 	}
 
 	/**
-	 * Met à jour le modèle de données à afficher en fonction des lettres
-	 * entrées par l'utilisateur. Affiche en priorité les noms commençant par la
-	 * chaîne entrée, puis les noms contenant la chaîne entrée.
+	 * Met a jour le modele de donnees a afficher en fonction des lettres
+	 * entrees par l'utilisateur. Affiche en priorite les noms commençant par la
+	 * chaine entree, puis les noms contenant la chaine entree.
 	 */
 	public void updateModel() {
 		Vector<String> starting = new Vector<String>();
@@ -85,7 +85,7 @@ public class StationSelectionCombo extends JComboBox<String> {
 		String text = "";
 		try {
 			text = document.getText(0, length);
-			// récupération des stations qui correspondent à la chaîne entrée
+			// recuperation des stations qui correspondent a la chaine entree
 			for (Station s : this.stations) {
 				String name = s.getName();
 				if (name.toLowerCase().startsWith(text.toLowerCase()))
@@ -93,15 +93,15 @@ public class StationSelectionCombo extends JComboBox<String> {
 				else if (name.toLowerCase().contains(text.toLowerCase()))
 					containing.add(name);
 			}
-			// tri des données obtenues qui commencent par la chaîne entrée
+			// tri des donnees obtenues qui commencent par la chaine entree
 			Collections.sort(starting, this.comp);
-			// tri des données obtenues qui contiennent la chaîne entrée
+			// tri des donnees obtenues qui contiennent la chaine entree
 			Collections.sort(containing, this.comp);
-			// concaténation des résultats
+			// concatenation des resultats
 			Iterator<String> it = containing.iterator();
 			while (it.hasNext())
 				starting.add(it.next());
-			// mise à jour du modèle de données à afficher
+			// mise a jour du modele de donnees a afficher
 			try {
 				this.setModel(new DefaultComboBoxModel<String>(starting));
 			} catch (Exception e) {
@@ -116,14 +116,14 @@ public class StationSelectionCombo extends JComboBox<String> {
 	}
 
 	public static void main(String[] args) {
-		// récuparation de la liste des stations
+		// recuparation de la liste des stations
 		Graph g = new Graph();
 		Collection<Station> stations = g.stationsToHashtable().values();
 
-		// création de la combobox
+		// creation de la combobox
 		StationSelectionCombo combo = new StationSelectionCombo(stations);
 
-		// création de la fenêtre
+		// creation de la fenetre
 		JFrame frame = new JFrame("MyComboBox");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(combo);

@@ -3,8 +3,8 @@ import java.awt.Color;
 import java.util.LinkedList;
 
 /**
- * Cette classe permet de sauvegarder les informations sur une ligne de métro, 
- * à savoir son numéro, ses stations de départ et ses stations d'arrivée.
+ * Cette classe permet de sauvegarder les informations sur une ligne de metro, 
+ * a savoir son numero, ses stations de depart et ses stations d'arrivee.
  * 
  * @author isabelle
  *
@@ -18,8 +18,8 @@ public class Line {
 	/**
 	 * Constructeur d'une ligne.
 	 * @param id L'identitfiant de la ligne.
-	 * @param idDepartures La liste des stations au départ de la ligne.
-	 * @param idArrivals La liste des stations à l'arrivée de la ligne.
+	 * @param idDepartures La liste des stations au depart de la ligne.
+	 * @param idArrivals La liste des stations a l'arrivee de la ligne.
 	 * @param color
 	 */
 	public Line(String id, LinkedList<Integer> idDepartures,
@@ -39,16 +39,16 @@ public class Line {
 	}
 
 	/**
-	 * Renvoie la liste des stations au départ de la ligne.
-	 * @return La liste des stations au départ de la ligne.
+	 * Renvoie la liste des stations au depart de la ligne.
+	 * @return La liste des stations au depart de la ligne.
 	 */
 	public LinkedList<Integer> getIdDepartures() {
 		return idDepartures;
 	}
 
 	/**
-	 * Renvoie la liste des stations à l'arrivée de la ligne.
-	 * @return La liste des stations à l'arrivée de la ligne.
+	 * Renvoie la liste des stations a l'arrivee de la ligne.
+	 * @return La liste des stations a l'arrivee de la ligne.
 	 */
 	public LinkedList<Integer> getIdArrivals() {
 		return idArrivals;
