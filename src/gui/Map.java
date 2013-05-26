@@ -4,16 +4,20 @@ import structure.Graph;
 import structure.Line;
 import structure.Station;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -29,8 +33,9 @@ public class Map extends JPanel {
 	private Transparix parent;
 	private Graph graph;
 	private LinkedList<Integer> path;
-	private int width, height, initialWidth, initialHeight;
+	private int width, height;
 	private final int STATION_SIZE = 5;
+	private boolean zoom = false;
 
 	/**
 	 * Constructeur d'un plan de métro.
@@ -50,28 +55,16 @@ public class Map extends JPanel {
 		this.parent = p;
 		this.path = new LinkedList<Integer>();
 		if (width < height) {
-			this.width = this.initialWidth = width;
-			this.height = this.initialHeight = width;
+			this.width = width;
+			this.height = width;
 		} else {
-			this.width = this.initialWidth = height;
-			this.height = this.initialHeight = height;
+			this.width = height;
+			this.height = height;
 		}
 		Dimension dim = new Dimension(this.width, this.height);
 		this.setPreferredSize(dim);
 		this.setMinimumSize(dim);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		// ajout du bouton Zoom +
-		JButton bPlus = new JButton("+");
-		bPlus.setSize(bPlus.getMinimumSize());
-		bPlus.setLocation(40, 40);
-		this.add(bPlus);
-		
-		// ajout du bouton Zoom -
-		JButton bMinus = new JButton("-");
-		bMinus.setSize(bMinus.getMinimumSize());
-		bMinus.setLocation(70, 70);
-		this.add(bMinus);
 	}
 
 	@Override
@@ -79,12 +72,18 @@ public class Map extends JPanel {
 		super.paintComponent(gg);
 		Graphics2D g = (Graphics2D) gg;
 
-		// mise à jour des nouvelles dimensions
-		Dimension dim = getSize();
-		this.width = dim.getWidth() < dim.getHeight() ? (int) dim.getWidth()
-				: (int) dim.getHeight();// FIXME
-		this.height = dim.getWidth() < dim.getHeight() ? (int) dim.getWidth()
-				: (int) dim.getHeight();// FIXME
+		if (!this.zoom) {
+			// mise à jour des nouvelles dimensions
+			Dimension dim = getSize();
+			this.width = dim.getWidth() < dim.getHeight() ? (int) dim
+					.getWidth() : (int) dim.getHeight();// FIXME
+			this.height = dim.getWidth() < dim.getHeight() ? (int) dim
+					.getWidth() : (int) dim.getHeight();// FIXME
+		} else {
+			// les dimensions doivent être celles calculées dans increaseSize()
+			// et decreaseSize()
+			this.zoom = false;
+		}
 
 		BasicStroke stroke = new BasicStroke(3);
 
@@ -96,6 +95,28 @@ public class Map extends JPanel {
 		for (Component c : this.getComponents())
 			if (c instanceof JButton)
 				this.remove(c);
+
+		// ajout des boutons de zoom
+		JButton bPlus = new JButton("+");
+		bPlus.setSize(44, 25);// FIXME
+		bPlus.setLocation(50, 40);
+		bPlus.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				increaseSize();
+			}
+		});
+		this.add(bPlus);
+		JButton bMinus = new JButton("-");
+		bMinus.setSize(44, 25);// FIXME
+		bMinus.setLocation(50, 60);
+		bMinus.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				decreaseSize();
+			}
+		});
+		this.add(bMinus);
 
 		// itération sur l'ensemble des stations
 		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
@@ -166,24 +187,16 @@ public class Map extends JPanel {
 	}
 
 	public void increaseSize() {
-		int x = 10 * this.width / 100;
-		int y = 10 * this.height / 100;
-		Dimension dim  = new Dimension(this.width + x, this.height + y);
-		if (dim.getWidth() > initialWidth) {
-			this.setSize(dim);
-			this.getParent().doLayout();
-		}
+		this.zoom = true;
+		this.width += 30 * this.width / 100;
+		this.height += 30 * this.height / 100;
 		this.repaint();
 	}
 
 	public void decreaseSize() {
-		int x = 10 * this.width / 100;
-		int y = 10 * this.height / 100;
-		Dimension dim = new Dimension(this.width - x, this.height - y);
-		if (dim.getWidth() > initialWidth) {
-			this.setSize(dim);
-			this.getParent().doLayout();
-		}
+		this.zoom = true;
+		this.width -= 30 * this.width / 100;
+		this.height -= 30 * this.width / 100;
 		this.repaint();
 	}
 
