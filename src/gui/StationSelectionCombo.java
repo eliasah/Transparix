@@ -1,6 +1,5 @@
 package gui;
 
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Vector;
@@ -16,8 +15,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import structure.Graph;
 import structure.Station;
-import trash.Extraction;
 
 public class StationSelectionCombo extends JComboBox<String> {
 
@@ -118,8 +117,8 @@ public class StationSelectionCombo extends JComboBox<String> {
 
 	public static void main(String[] args) {
 		// récuparation de la liste des stations
-		Collection<Station> stations = Extraction.extractStations(
-				"data/data_v1/stations.txt").values();
+		Graph g = new Graph();
+		Collection<Station> stations = g.stationsToHashtable().values();
 
 		// création de la combobox
 		StationSelectionCombo combo = new StationSelectionCombo(stations);

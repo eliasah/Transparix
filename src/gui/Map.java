@@ -29,7 +29,7 @@ public class Map extends JPanel {
 	private Transparix parent;
 	private Graph graph;
 	private LinkedList<Integer> path;
-	private int width, height;
+	private int width, height, initialWidth, initialHeight;
 	private final int STATION_SIZE = 5;
 
 	/**
@@ -49,12 +49,29 @@ public class Map extends JPanel {
 		this.graph = graph;
 		this.parent = p;
 		this.path = new LinkedList<Integer>();
-		this.width = width;
-		this.height = height;
-		this.setPreferredSize(new Dimension(width, height));
-		this.setMinimumSize(new Dimension(width, height));
+		if (width < height) {
+			this.width = this.initialWidth = width;
+			this.height = this.initialHeight = width;
+		} else {
+			this.width = this.initialWidth = height;
+			this.height = this.initialHeight = height;
+		}
+		Dimension dim = new Dimension(this.width, this.height);
+		this.setPreferredSize(dim);
+		this.setMinimumSize(dim);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.repaint();
+		
+		// ajout du bouton Zoom +
+		JButton bPlus = new JButton("+");
+		bPlus.setSize(bPlus.getMinimumSize());
+		bPlus.setLocation(40, 40);
+		this.add(bPlus);
+		
+		// ajout du bouton Zoom -
+		JButton bMinus = new JButton("-");
+		bMinus.setSize(bMinus.getMinimumSize());
+		bMinus.setLocation(70, 70);
+		this.add(bMinus);
 	}
 
 	@Override
@@ -62,12 +79,18 @@ public class Map extends JPanel {
 		super.paintComponent(gg);
 		Graphics2D g = (Graphics2D) gg;
 
+		// mise à jour des nouvelles dimensions
 		Dimension dim = getSize();
+		this.width = dim.getWidth() < dim.getHeight() ? (int) dim.getWidth()
+				: (int) dim.getHeight();// FIXME
+		this.height = dim.getWidth() < dim.getHeight() ? (int) dim.getWidth()
+				: (int) dim.getHeight();// FIXME
+
 		BasicStroke stroke = new BasicStroke(3);
 
 		// coloration du fond de la carte
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
+		g.fillRect(0, 0, this.width, this.height);
 
 		// suppression des anciens boutons (en cas de redimensionnement)
 		for (Component c : this.getComponents())
@@ -80,8 +103,7 @@ public class Map extends JPanel {
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
-					s.getLongitude(), (int) dim.getWidth(),
-					(int) dim.getHeight());
+					s.getLongitude(), this.width, this.height);
 
 			// affichage des stations
 			JButton bStation = new JButton(new ColoredSquare(Color.black,
@@ -101,8 +123,8 @@ public class Map extends JPanel {
 				int idSN = itS.next();
 				Station sN = this.graph.stationsToHashtable().get(idSN);
 				int[] coordsSN = this.convertCoordinatesStation(
-						sN.getLatitude(), sN.getLongitude(),
-						(int) dim.getWidth(), (int) dim.getHeight());
+						sN.getLatitude(), sN.getLongitude(), this.width,
+						this.height);
 				String idLN = itL.next();
 				Line lN = this.graph.linesToHashtable().get(idLN);
 				Color colorLN = lN.getColor();
@@ -124,23 +146,44 @@ public class Map extends JPanel {
 				tmp = s;
 			} else {
 				int[] coords1 = this.convertCoordinatesStation(
-						tmp.getLatitude(), tmp.getLongitude(),
-						(int) dim.getWidth(), (int) dim.getHeight());
+						tmp.getLatitude(), tmp.getLongitude(), this.width,
+						this.height);
 				if (!itP.hasNext()) // s1 est la station d'arrivée
 					break;
 				Station s2 = this.graph.stationsToHashtable().get(itP.next());
 				int[] coords2 = this.convertCoordinatesStation(
-						s2.getLatitude(), s2.getLongitude(),
-						(int) dim.getWidth(), (int) dim.getHeight());
+						s2.getLatitude(), s2.getLongitude(), this.width,
+						this.height);
 				g.drawLine(coords1[0], coords1[1], coords2[0], coords2[1]);
 				tmp = s2;
 			}
 		}
-
 	}
 
 	public void drawPath(LinkedList<Integer> path) {
 		this.path = path;
+		this.repaint();
+	}
+
+	public void increaseSize() {
+		int x = 10 * this.width / 100;
+		int y = 10 * this.height / 100;
+		Dimension dim  = new Dimension(this.width + x, this.height + y);
+		if (dim.getWidth() > initialWidth) {
+			this.setSize(dim);
+			this.getParent().doLayout();
+		}
+		this.repaint();
+	}
+
+	public void decreaseSize() {
+		int x = 10 * this.width / 100;
+		int y = 10 * this.height / 100;
+		Dimension dim = new Dimension(this.width - x, this.height - y);
+		if (dim.getWidth() > initialWidth) {
+			this.setSize(dim);
+			this.getParent().doLayout();
+		}
 		this.repaint();
 	}
 
