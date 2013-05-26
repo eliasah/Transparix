@@ -1,6 +1,6 @@
 + enregistrer les dix derniers itinéraires+ 
 
-+ modifier affichage des stations (utiliser JButton au lieu de Graphics)
+- modifier affichage des stations (utiliser JButton au lieu de Graphics)
 
 + créer les différents containers à partir des composants créés (StationSelectionPanel, ItineraryPanel, ...)
 
