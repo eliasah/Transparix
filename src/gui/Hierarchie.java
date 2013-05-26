@@ -47,6 +47,7 @@ public class Hierarchie extends JPanel {
 	private StationTreeSelectionListener tsl;
 	private JLabel lblDepart;
 	private JLabel lblArrivee;
+	private DefaultMutableTreeNode dmstations;
 
 
 	public Object getStart() {
@@ -62,6 +63,7 @@ public class Hierarchie extends JPanel {
 		graph = g;
 
 		dmlines = new DefaultMutableTreeNode("Lignes");
+		dmstations = new DefaultMutableTreeNode("Stations");
 		treestart = new JTree(dmlines);
 		treeend = new JTree(dmlines);
 		scrollPaneend = new JScrollPane();
@@ -83,12 +85,10 @@ public class Hierarchie extends JPanel {
 		scrollPanestart.setViewportView(treestart);
 		scrollPaneend.setViewportView(treeend);
 
-		//add(new JLabel("Depart"));
 		add(scrollPanestart);
 		
 		lblDepart = new JLabel("Depart");
 		scrollPanestart.setColumnHeaderView(lblDepart);
-		//add(new JLabel("Arrivee"));
 		add(scrollPaneend);
 		
 		lblArrivee = new JLabel("Arrivee");
@@ -120,6 +120,17 @@ public class Hierarchie extends JPanel {
 			}
 			dmlines.add(treenode);
 		}
+		
+		// Toutes les stations
+		dmlines.add(new DefaultMutableTreeNode("Toutes"));
+		DefaultMutableTreeNode lf = dmlines.getLastLeaf();
+		for (Couple<Integer,Station> c : graph.getStations()){
+			lf.add((new DefaultMutableTreeNode(c.second().getName())));
+		}
+		
+		// Par Zone
+		// TODO
+		
 	}
 
 	class StationTreeSelectionListener implements TreeSelectionListener {

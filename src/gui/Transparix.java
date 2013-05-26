@@ -62,6 +62,8 @@ public class Transparix implements Runnable {
 		// barre de menu
 		menubar = new JMenuBar();
 		fichier = new JMenu("Fichier");
+		recherche = new JMenu("Recherche");
+		
 		quitter = new JMenuItem("Quitter");
 		quitter.addActionListener(new ActionListener() {
 			@Override
@@ -69,6 +71,9 @@ public class Transparix implements Runnable {
 				System.exit(0);
 			}
 		});
+		
+		
+		
 		fichier.add(quitter);
 		menubar.add(fichier);
 
