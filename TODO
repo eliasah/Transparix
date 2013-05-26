@@ -1,12 +1,6 @@
+====A FAIRE====
+
 + enregistrer les dix derniers itinéraires
-
-- modifier affichage des stations (utiliser JButton au lieu de Graphics)
-
-+ créer les différents containers à partir des composants créés (StationSelectionPanel, ItineraryPanel, ...)
-
-- retailler la fenêtre
-
-- zoom sur la carte
 
 + implémenter zones géographiques dans Hierarchie
 	- Lignes
@@ -42,4 +36,19 @@
 	Aide
 		A propos
 			(JDialog version TransParix)
+
+
+
+
+
+====FAIT====
+
+- modifier affichage des stations (utiliser JButton au lieu de Graphics)
+
+- créer les différents containers à partir des composants créés (StationSelectionPanel, ItineraryPanel, ...)
+
+- retailler la fenêtre
+
+- zoom sur la carte
+
 
