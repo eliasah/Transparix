@@ -25,23 +25,25 @@ public class TreeSelectionFrame extends JFrame {
 	private JButton btnChercher;
 	private Hierarchie selectionh;
 	private Model model;
+	private Map map;
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TreeSelectionFrame frame = new TreeSelectionFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TreeSelectionFrame frame = new TreeSelectionFrame(new Graph(),new Map());
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
-	public TreeSelectionFrame() {
+	public TreeSelectionFrame(Map m) {
 		setTitle("Hierarchie");
 		model = new Model(new Graph());
+		this.map = m;
 		selectionh = new Hierarchie(model.getGraph());
 		btnChercher = new JButton("Chercher");
 		btnChercher.addActionListener(new ActionListener() {
@@ -54,10 +56,10 @@ public class TreeSelectionFrame extends JFrame {
 					model.setsStart(graph.getStation(start.toString()));
 					model.setsEnd(graph.getStation(end.toString()));
 					// System.out.println("sStart " + sStart.toString() + "sEnd" + sEnd.toString());
-					model.setParcours(new BFS(graph,model.getsStart().getId(),model.getsEnd().getId()));
-					model.setPath(model.getPath());
-					// model.getParcours().printPath();
-					graph.resetMarks();
+					BFS bfs = new BFS(graph,model.getsStart().getId(),model.getsEnd().getId());
+					graph.resetMarks();	
+					System.out.println(bfs.getPath().toString());
+					map.drawPath(bfs.getPath());
 				}	
 				//else {
 					// System.out.println("ERREUR");

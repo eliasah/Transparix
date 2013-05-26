@@ -5,6 +5,8 @@ import itinerary.BFS;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,7 +90,7 @@ public class Transparix {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				frmTreeSearch = new TreeSelectionFrame();
+				frmTreeSearch = new TreeSelectionFrame(map);
 				frmTreeSearch.setLocationByPlatform(true);
 				frmTreeSearch.setVisible(true);
 			}
@@ -110,10 +112,12 @@ public class Transparix {
 
 		// plan de metro
 		map = new Map(this, this.graph, 600, 600);
+		
 		// FIXME ajout d'un itineraire bidon pour test
 		BFS parcours = new BFS(this.graph, 1953, 1793);
 		LinkedList<Integer> list = parcours.getPath();
-		// map.drawPath(list);
+		
+		map.drawPath(list);
 		System.out.println(list.toString());
 
 		// panel informations
@@ -140,12 +144,20 @@ public class Transparix {
 
 		// fenetre principale
 		frame = new JFrame("TransParix");
-		frame.setLocationRelativeTo(null);
+		// frame.setLocationRelativeTo(null);
+		Point p = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getCenterPoint();
+		frame.setLocation((int) (p.getX() - 300), (int) (p.getY() - 300));
+		
 		frame.setJMenuBar(menubar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(panel);
 		frame.pack();
 		frame.setVisible(true);
+	}
+	
+	public Map getMap(){
+		return map;
 	}
 
 }
