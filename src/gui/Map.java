@@ -156,8 +156,8 @@ public class Map extends JPanel {
 
 		// FIXME
 		// tracé de l'itinéraire actuellement calculé
-		g.setColor(Color.yellow);
-		stroke = new BasicStroke(5);
+		g.setColor(Color.RED);
+		stroke = new BasicStroke(7);
 		g.setStroke(stroke);
 		Station tmp = null;
 		Iterator<Integer> itP = path.iterator();
