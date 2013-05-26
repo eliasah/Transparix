@@ -1,6 +1,5 @@
 package gui;
 
-
 import itinerary.BFS;
 
 import java.awt.BorderLayout;
@@ -10,6 +9,7 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -31,7 +31,7 @@ public class ComboSelectionFrame extends JFrame {
 	private JPanel pnlEnd;
 	private JButton btnChercher;
 	private JPanel pnlButton;
-	
+
 	private JPanel panelButtons;
 	// private Model model;
 	private Map map;
@@ -39,7 +39,7 @@ public class ComboSelectionFrame extends JFrame {
 
 	public ComboSelectionFrame(Map m, Graph g) {
 		map = m;
-		
+
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.graph = g;
@@ -62,16 +62,24 @@ public class ComboSelectionFrame extends JFrame {
 				Object end = sscEnd.getSelectedItem();
 				if (start != null && end != null) {
 					// Graph graph = model.getGraph();
-					System.out.println("start :" +  start.toString() + ", end : " + end.toString());
+					System.out.println("start :" + start.toString()
+							+ ", end : " + end.toString());
 					Station sStart = graph.getStation(start.toString());
-					System.out.println("sStart " + graph.getStation(start.toString()));
+					System.out.println("sStart "
+							+ graph.getStation(start.toString()));
 					Station sEnd = graph.getStation(end.toString());
-					System.out.println("sEnd " + graph.getStation(end.toString()));
-
-					BFS bfs = new BFS(graph,sStart.getId(),sEnd.getId());
-					graph.resetMarks();
-					System.out.println(bfs.getPath().toString());
-					map.drawPath(bfs.getPath());
+					System.out.println("sEnd "
+							+ graph.getStation(end.toString()));
+					if (sStart == null || sEnd == null) {
+						showErrorDialog();
+					} else {
+						BFS bfs = new BFS(graph, sStart.getId(), sEnd.getId());
+						graph.resetMarks();
+						System.out.println(bfs.getPath().toString());
+						map.drawPath(bfs.getPath());
+					}
+				} else {
+					showErrorDialog();
 				}
 			}
 		});
@@ -79,7 +87,7 @@ public class ComboSelectionFrame extends JFrame {
 		pnlButton = new JPanel();
 		pnlButton.setBorder(null);
 		pnlButton.setLayout(new BorderLayout(0, 0));
-		pnlButton.add(btnChercher,BorderLayout.CENTER);
+		pnlButton.add(btnChercher, BorderLayout.CENTER);
 
 		pnlEnd = new JPanel();
 		pnlEnd.setBorder(new TitledBorder(UIManager
@@ -98,5 +106,11 @@ public class ComboSelectionFrame extends JFrame {
 		contentPane.add(pnlButton);
 
 		setContentPane(contentPane);
-	}	
+	}
+
+	public void showErrorDialog() {
+		JOptionPane.showMessageDialog(null,
+				"Vous n'avez pas sélectionné les stations correctement.",
+				"Attention!", JOptionPane.WARNING_MESSAGE);
+	}
 }
