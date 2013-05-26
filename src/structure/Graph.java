@@ -2,6 +2,7 @@ package structure;
 
 import itinerary.Dijkstra;
 
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -25,12 +26,13 @@ public class Graph {
 
 	private LinkedList<Couple<String, Line>> lines;
 	private LinkedList<Couple<Integer, Station>> stations;
-
+	private LinkedList<Edge> edges;
 	public Graph() {
 		v = 0;
 		e = 0;
 		lines = Utilities.extractLines(FILE_LINES);
 		stations = Utilities.fillwithStations(FILE_STATIONS);
+
 	}
 
 	public LinkedList<Couple<Integer, Station>> getStations() {
@@ -67,7 +69,7 @@ public class Graph {
 		}
 		return null;
 	}
-	
+
 	public int getV() {
 		return v;
 	}
@@ -114,5 +116,10 @@ public class Graph {
 			t.put(c.first(), c.second());
 		}
 		return t;
+	}
+
+	public Collection<? extends Edge> getEdges() {
+		// FIXME
+		return null;
 	}
 }
