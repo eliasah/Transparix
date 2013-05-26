@@ -4,12 +4,14 @@ import itinerary.BFS;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.LinkedList;
 
@@ -19,8 +21,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
-
 
 import structure.Graph;
 
@@ -86,9 +88,12 @@ public class Transparix {
 		// barre de menu
 		menubar = new JMenuBar();
 		fichier = new JMenu("Fichier");
+		fichier.setMnemonic(KeyEvent.VK_F);
 		recherche = new JMenu("Recherche");
+		recherche.setMnemonic(KeyEvent.VK_R);
 
 		btnTreeSearch = new JMenuItem("TreeSearch");
+		btnTreeSearch.setMnemonic(KeyEvent.VK_T);
 		btnTreeSearch.addActionListener(new ActionListener() {
 
 			@Override
@@ -100,17 +105,20 @@ public class Transparix {
 		});
 
 		btnComboSearch = new JMenuItem("ComboSearch");
+		btnComboSearch.setMnemonic(KeyEvent.VK_C);
 		btnComboSearch.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				frmComboSearch = new ComboSelectionFrame(map,graph);
+				frmComboSearch = new ComboSelectionFrame(map, graph);
 				frmComboSearch.setLocationByPlatform(true);
 				frmComboSearch.setVisible(true);
 			}
 		});
-		
-		quitter = new JMenuItem("Quitter");
+
+		quitter = new JMenuItem("Quitter", KeyEvent.VK_Q);
+		quitter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
+				Event.CTRL_MASK));
 		quitter.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
