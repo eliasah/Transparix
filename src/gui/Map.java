@@ -131,8 +131,8 @@ public class Map extends JPanel {
 			bStation.setPreferredSize(new Dimension(STATION_SIZE, STATION_SIZE));
 			bStation.setBounds(coords[0] - STATION_SIZE / 2, coords[1]
 					- STATION_SIZE / 2, STATION_SIZE, STATION_SIZE);
-			StationListener sl = new StationListener(s, this.parent);
-			bStation.addActionListener(sl);
+			bStation.addActionListener(new StationListener(s, this.parent
+					.getStationName()));
 			this.add(bStation);
 
 			// trace des segments reliant la station a chacun de ses voisins

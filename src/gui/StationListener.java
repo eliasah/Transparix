@@ -12,17 +12,17 @@ import structure.Station;
 public class StationListener implements ActionListener {
 
 	private Station station;
-	private Transparix parent;
+	private JLabel label;
 
-	public StationListener(Station station, Transparix parent) {
+	public StationListener(Station station, JLabel label) {
 		this.station = station;
-		this.parent = parent;
+		this.label = label;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// FIXME
-		parent.getStationName().setText(station.getName());
-
+		System.out.println(this.station.getName());
+		this.label.setText(this.station.getName());
 	}
 }

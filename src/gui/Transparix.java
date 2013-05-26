@@ -84,7 +84,6 @@ public class Transparix {
 	}
 
 	public void initialize() {
-
 		// barre de menu
 		menubar = new JMenuBar();
 		fichier = new JMenu("Fichier");
@@ -136,35 +135,21 @@ public class Transparix {
 		// plan de metro
 		map = new Map(this, this.graph, 600, 600);
 
-		// FIXME ajout d'un itineraire bidon pour test
-		// BFS parcours = new BFS(this.graph, 1953, 1793);
-		// LinkedList<Integer> list = parcours.getPath();
-
-		// map.drawPath(list);
-		// System.out.println(list.toString());
-
 		// panel informations
 		// TODO ajouter une classe InformationsStation qui herite de JPanel
-		informations = new JPanel();
+		informations = new JPanel();// FIXME
 		informations.setPreferredSize(new Dimension(200, 500));
 		stationName = new JLabel();
 		informations.add(stationName);
-
-		// panel recherche station de metro
-		// TODO
-		stationSelection = new StationSelectionCombo(this.graph.getStations());
-
-		// panel recherche itineraire
-		// TODO
 
 		// panel principal
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setPreferredSize(new Dimension(600, 600));
-		panel.add(stationSelection, BorderLayout.NORTH);
 		map.setPreferredSize(panel.getMaximumSize());
-		panel.add(map, BorderLayout.WEST);
-		panel.add(informations, BorderLayout.EAST);
+		panel.add(map, BorderLayout.CENTER);
+		// FIXME
+		// panel.add(informations, BorderLayout.EAST);
 
 		// fenetre principale
 		frame = new JFrame("TransParix");
