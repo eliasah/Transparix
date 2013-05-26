@@ -21,6 +21,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import examples.ComboSelectionFrame;
+
 import structure.Graph;
 
 /**
@@ -43,9 +45,11 @@ public class Transparix {
 	private StationSelectionCombo stationSelection;
 
 	private JMenu recherche;
-	private JMenuItem btnhierarchie;
+	private JMenuItem btnTreeSearch;
 
 	private TreeSelectionFrame frmTreeSearch;
+	private ComboSelectionFrame frmComboSearch;
+	private JMenuItem btnComboSearch;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -85,17 +89,28 @@ public class Transparix {
 		fichier = new JMenu("Fichier");
 		recherche = new JMenu("Recherche");
 
-		btnhierarchie = new JMenuItem("TreeSearch");
-		btnhierarchie.addActionListener(new ActionListener() {
+		btnTreeSearch = new JMenuItem("TreeSearch");
+		btnTreeSearch.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				frmTreeSearch = new TreeSelectionFrame(map,graph);
+				frmTreeSearch = new TreeSelectionFrame(map, graph);
 				frmTreeSearch.setLocationByPlatform(true);
 				frmTreeSearch.setVisible(true);
 			}
 		});
 
+		btnComboSearch = new JMenuItem("ComboSearch");
+		btnComboSearch.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				frmComboSearch = new ComboSelectionFrame(map,graph);
+				frmComboSearch.setLocationByPlatform(true);
+				frmComboSearch.setVisible(true);
+			}
+		});
+		
 		quitter = new JMenuItem("Quitter");
 		quitter.addActionListener(new ActionListener() {
 			@Override
@@ -104,7 +119,8 @@ public class Transparix {
 			}
 		});
 
-		recherche.add(btnhierarchie);
+		recherche.add(btnTreeSearch);
+		recherche.add(btnComboSearch);
 		fichier.add(quitter);
 
 		menubar.add(fichier);
@@ -112,11 +128,11 @@ public class Transparix {
 
 		// plan de metro
 		map = new Map(this, this.graph, 600, 600);
-		
+
 		// FIXME ajout d'un itineraire bidon pour test
 		// BFS parcours = new BFS(this.graph, 1953, 1793);
 		// LinkedList<Integer> list = parcours.getPath();
-		
+
 		// map.drawPath(list);
 		// System.out.println(list.toString());
 
@@ -129,8 +145,7 @@ public class Transparix {
 
 		// panel recherche station de metro
 		// TODO
-		stationSelection = new StationSelectionCombo(this.graph
-				.stationsToHashtable().values());
+		stationSelection = new StationSelectionCombo(this.graph.getStations());
 
 		// panel recherche itineraire
 		// TODO
@@ -138,7 +153,7 @@ public class Transparix {
 		// panel principal
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		panel.setPreferredSize(new Dimension(600,600));
+		panel.setPreferredSize(new Dimension(600, 600));
 		panel.add(stationSelection, BorderLayout.NORTH);
 		map.setPreferredSize(panel.getMaximumSize());
 		panel.add(map, BorderLayout.WEST);
@@ -150,20 +165,20 @@ public class Transparix {
 		Point p = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getCenterPoint();
 		frame.setLocation((int) (p.getX() - 300), (int) (p.getY() - 300));
-		
+
 		frame.setJMenuBar(menubar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(panel);
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
-	public Map getMap(){
+
+	public Map getMap() {
 		return map;
 	}
 
-	public Dimension getDimension(){
+	public Dimension getDimension() {
 		return frame.getSize();
 	}
-	
+
 }
