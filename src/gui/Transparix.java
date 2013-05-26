@@ -9,10 +9,13 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -23,9 +26,11 @@ import javax.swing.event.MenuListener;
 
 import structure.Graph;
 import structure.Station;
+import tools.Couple;
 
 /**
- * TODO
+ * Cette classe est la classe principale du projet TransParix. Elle contrôle
+ * l'affichage de la fenêtre principale contenant le plan du métro.
  * 
  * @author isabelle
  * 
@@ -39,7 +44,6 @@ public class Transparix {
 	private JMenuItem quitter;
 	private Map map;
 	private JPanel panel;
-	private JLabel stationName;
 
 	private JMenu recherche;
 	private JMenuItem btnTreeSearch;
@@ -49,8 +53,11 @@ public class Transparix {
 	private JMenuItem btnComboSearch;
 	private JMenu itineraire;
 	private JMenu derniersItineraires;
-	
+
 	private ItineraryFrame itineraryFrame;
+
+	private LinkedList<Integer> currentList;
+	private JMenuItem rechercheLigne;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -75,15 +82,8 @@ public class Transparix {
 	}
 
 	/**
-	 * Retourne le label qui contient le nom de la station sur lequel
-	 * l'utilisateur a clique.
-	 * 
-	 * @return Le nom de la station.
+	 * Crée l'interface graphique de TransParix.
 	 */
-	public JLabel getStationName() {
-		return stationName;
-	}
-
 	public void initialize() {
 		// barre de menu
 		menubar = new JMenuBar();
@@ -93,8 +93,24 @@ public class Transparix {
 		recherche.setMnemonic(KeyEvent.VK_R);
 		itineraire = new JMenu("Itineraire");
 		itineraire.setMnemonic(KeyEvent.VK_I);
-		
-		// TOOD ajouter des choses à rechercher : station, ligne...
+
+		rechercheLigne = new JMenuItem("Rechercher une ligne");
+		rechercheLigne.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JComboBox<String> comboLines = new JComboBox<String>();
+				Vector<String> values = new Vector<String>();
+				Iterator<Couple<Integer, Station>> it = graph.getStations()
+						.iterator();
+				for (Couple<Integer, Station> c : graph.getStations()) {
+					values.addElement(c.second().getName());
+				}
+				DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(
+						values);
+				comboLines.setModel(model);
+				// FIXME ajouter la combobox quelque part !
+			}
+		});
 
 		btnTreeSearch = new JMenuItem("TreeSearch");
 		btnTreeSearch.setMnemonic(KeyEvent.VK_T);
@@ -127,25 +143,28 @@ public class Transparix {
 				System.exit(0);
 			}
 		});
-		
+
 		derniersItineraires = new JMenu("Derniers itinéraires");
 		derniersItineraires.addMenuListener(new MenuListener() {
 			@Override
 			public void menuSelected(MenuEvent arg0) {
 				updateItineraries();
 			}
+
 			@Override
 			public void menuDeselected(MenuEvent arg0) {
 			}
+
 			@Override
-			public void menuCanceled(MenuEvent arg0) {	
+			public void menuCanceled(MenuEvent arg0) {
 			}
 		});
 
+		fichier.add(quitter);
+		recherche.add(rechercheLigne);
 		itineraire.add(btnTreeSearch);
 		itineraire.add(btnComboSearch);
 		itineraire.add(derniersItineraires);
-		fichier.add(quitter);
 
 		menubar.add(fichier);
 		menubar.add(recherche);
@@ -174,19 +193,33 @@ public class Transparix {
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Renvoie le plan du métro.
+	 * 
+	 * @return Le Panel qui contient le plan.
+	 */
 	public Map getMap() {
 		return map;
 	}
 
+	/**
+	 * Renvoie les dimensions de la fenêtre principale de TransParix.
+	 * 
+	 * @return Les dimensions de la fenêtre.
+	 */
 	public Dimension getDimension() {
 		return frame.getSize();
 	}
-	
+
+	/**
+	 * Affiche la liste des itinéraires dans le menu "Derniers itinéraires...".
+	 */
 	public void updateItineraries() {
 		this.derniersItineraires.removeAll();
-		for (LinkedList<Integer> l : this.graph.getLastItineraries()) {
-			Station sD = this.graph.getStation(l.getFirst());
-			Station sA = this.graph.getStation(l.getLast());
+		for (LinkedList<Integer> list : this.graph.getLastItineraries()) {
+			this.currentList = list;
+			Station sD = this.graph.getStation(this.currentList.getFirst());
+			Station sA = this.graph.getStation(this.currentList.getLast());
 			String sDName = sD.getName();
 			String sAName = sA.getName();
 			String path = "De " + sDName + " à " + sAName + "...";
@@ -194,7 +227,8 @@ public class Transparix {
 			pathL.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					itineraryFrame = new ItineraryFrame(map, graph);
+					// FIXME le meme itineraire s'affiche toujours (le dernier)
+					itineraryFrame = new ItineraryFrame(graph, map, currentList);
 					itineraryFrame.setLocationByPlatform(true);
 					itineraryFrame.setVisible(true);
 				}

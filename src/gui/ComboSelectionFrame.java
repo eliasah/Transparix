@@ -78,11 +78,11 @@ public class ComboSelectionFrame extends JFrame {
 						// System.out.println(bfs.getPath().toString());
 
 						// affichage de l'itinéraire
-						ItineraryFrame itineraryFrame = new ItineraryFrame(map,
-								graph);
+						ItineraryFrame itineraryFrame = new ItineraryFrame(
+								graph, map, bfs.getPath());
 						itineraryFrame.setLocationByPlatform(true);
 						itineraryFrame.setVisible(true);
-						
+
 						map.drawPath(bfs.getPath());
 					}
 				} else {

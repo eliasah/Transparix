@@ -9,17 +9,14 @@ import structure.Station;
 public class StationListener implements ActionListener {
 
 	private Station station;
-	private JLabel label;
 
-	public StationListener(Station station, JLabel label) {
+	public StationListener(Station station) {
 		this.station = station;
-		this.label = label;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// FIXME
 		System.out.println(this.station.getName());
-		this.label.setText(this.station.getName());
 	}
 }

@@ -1,29 +1,23 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
 import java.util.LinkedList;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.WindowConstants;
-import javax.swing.border.EmptyBorder;
-
 import structure.Graph;
-import structure.Station;
 
 public class ItineraryFrame extends JFrame {
 
-	private Map map;
 	private Graph graph;
+	private Map map;
+	private LinkedList<Integer> path;
 
-	public ItineraryFrame(Map map, Graph graph) {
-		this.map = map;
+	public ItineraryFrame(Graph graph, Map map, LinkedList<Integer> path) {
 		this.graph = graph;
+		this.map = map;
+		this.path = path;
 
 		this.setTitle("Itinéraire");
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -37,11 +31,10 @@ public class ItineraryFrame extends JFrame {
 	}
 
 	public void showItinerary() {
-		LinkedList<Integer> itinerary = this.graph.getLastItineraries()
-				.getLast();
-		for (int i : itinerary) {
-			Station s = this.graph.getStation(i);
-			this.add(new JLabel(s.getName()));
+		System.out.println(path);
+		for (int i : this.path) {
+			this.add(new JLabel(this.graph.getStation(i).getName()));
 		}
+		this.map.drawPath(this.path);
 	}
 }

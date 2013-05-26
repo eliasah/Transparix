@@ -133,8 +133,7 @@ public class Map extends JPanel {
 			bStation.setPreferredSize(new Dimension(STATION_SIZE, STATION_SIZE));
 			bStation.setBounds(coords[0] - STATION_SIZE / 2, coords[1]
 					- STATION_SIZE / 2, STATION_SIZE, STATION_SIZE);
-			bStation.addActionListener(new StationListener(s, this.parent
-					.getStationName()));
+			bStation.addActionListener(new StationListener(s));
 			this.add(bStation);
 
 			// trace des segments reliant la station a chacun de ses voisins
@@ -156,7 +155,6 @@ public class Map extends JPanel {
 			}
 		}
 
-		// FIXME
 		// trace de l'itineraire actuellement calcule
 		g.setColor(Color.RED);
 		stroke = new BasicStroke(7);

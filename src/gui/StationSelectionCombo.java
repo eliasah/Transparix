@@ -40,20 +40,16 @@ public class StationSelectionCombo extends JComboBox<String> {
 	public StationSelectionCombo(LinkedList<Couple<Integer, Station>> stations) {
 		super();
 		this.stations = stations;
-		// generation du modele de donnees a�partir des noms de stations
+		// generation du modele de donnees a partir des noms de stations
 		Vector<String> values = new Vector<String>();
-		Iterator<Couple<Integer, Station>> it = stations.iterator();
-
 		for (Couple<Integer, Station> c : stations) {
 			values.addElement(c.second().getName());
 		}
 
-		// while (it.hasNext())
-		// values.addElement(it.next().getName());
 		Collections.sort(values, this.comp);
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(
 				values);
-		// ajout du modele de donnees a� afficher
+		// ajout du modele de donnees a afficher
 		this.setModel(model);
 		// aucune station n'est selectionnee au depart
 		this.setSelectedIndex(-1);
@@ -92,7 +88,7 @@ public class StationSelectionCombo extends JComboBox<String> {
 		String text = "";
 		try {
 			text = document.getText(0, length);
-			// récupération des stations qui correspondent à la chaîne
+			// recuperation des stations qui correspondent à la chaine
 			// entrée
 			for (Couple<Integer, Station> c : this.stations) {
 				String name = c.second().getName();
@@ -101,15 +97,15 @@ public class StationSelectionCombo extends JComboBox<String> {
 				else if (name.toLowerCase().contains(text.toLowerCase()))
 					containing.add(name);
 			}
-			// tri des données obtenues qui commencent par la chaîne entrée
+			// tri des donnees obtenues qui commencent par la chaine entree
 			Collections.sort(starting, this.comp);
-			// tri des données obtenues qui contiennent la chaîne entrée
+			// tri des donnees obtenues qui contiennent la chaine entree
 			Collections.sort(containing, this.comp);
-			// concaténation des résultats
+			// concatenation des resultats
 			Iterator<String> it = containing.iterator();
 			while (it.hasNext())
 				starting.add(it.next());
-			// mise à jour du modèle de données à afficher
+			// mise a jour du modele de donnees a afficher
 			try {
 				this.setModel(new DefaultComboBoxModel<String>(starting));
 			} catch (Exception e) {
