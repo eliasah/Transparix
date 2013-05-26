@@ -4,7 +4,6 @@ import structure.Graph;
 import structure.Line;
 import structure.Station;
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -12,12 +11,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -98,7 +98,7 @@ public class Map extends JPanel {
 
 		// ajout des boutons de zoom
 		JButton bPlus = new JButton("+");
-		bPlus.setSize(44, 25);// FIXME
+		bPlus.setSize(44, 25);
 		bPlus.setLocation(50, 40);
 		bPlus.addActionListener(new ActionListener() {
 			@Override
@@ -108,7 +108,7 @@ public class Map extends JPanel {
 		});
 		this.add(bPlus);
 		JButton bMinus = new JButton("-");
-		bMinus.setSize(44, 25);// FIXME
+		bMinus.setSize(44, 25);
 		bMinus.setLocation(50, 60);
 		bMinus.addActionListener(new ActionListener() {
 			@Override
@@ -132,7 +132,8 @@ public class Map extends JPanel {
 			bStation.setPreferredSize(new Dimension(STATION_SIZE, STATION_SIZE));
 			bStation.setBounds(coords[0] - STATION_SIZE / 2, coords[1]
 					- STATION_SIZE / 2, STATION_SIZE, STATION_SIZE);
-			bStation.addActionListener(new StationListener(s, this.parent));
+			StationListener sl = new StationListener(s, this.parent);
+			bStation.addActionListener(sl);
 			this.add(bStation);
 
 			// tracé des segments reliant la station à chacun de ses voisins
