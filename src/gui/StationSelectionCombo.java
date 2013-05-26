@@ -16,8 +16,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+import structure.Graph;
 import structure.Station;
-import trash.Extraction;
+import tools.Couple;
 
 public class StationSelectionCombo extends JComboBox<String> {
 
@@ -116,20 +117,20 @@ public class StationSelectionCombo extends JComboBox<String> {
 		}
 	}
 
-	public static void main(String[] args) {
-		// récuparation de la liste des stations
-		Collection<Station> stations = Extraction.extractStations(
-				"data/data_v1/stations.txt").values();
-
-		// création de la combobox
-		StationSelectionCombo combo = new StationSelectionCombo(stations);
-
-		// création de la fenêtre
-		JFrame frame = new JFrame("MyComboBox");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(combo);
-		frame.pack();
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		Graph g = new Graph();
+//		// récuparation de la liste des stations
+//		Collection<Couple<Integer, Station>> stations = g.getStations();
+//
+//		// création de la combobox
+//		StationSelectionCombo combo = new StationSelectionCombo(stations);
+//
+//		// création de la fenêtre
+//		JFrame frame = new JFrame("MyComboBox");
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.getContentPane().add(combo);
+//		frame.pack();
+//		frame.setVisible(true);
+//	}
 
 }

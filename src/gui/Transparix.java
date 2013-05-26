@@ -4,6 +4,8 @@ import itinerary.BFS;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -25,10 +27,9 @@ import structure.Graph;
  * @author isabelle
  * 
  */
-public class Transparix implements Runnable {
+public class Transparix {
 
 	private Graph graph;
-
 	private JFrame frame;
 	private JMenuBar menubar;
 	private JMenu fichier;
@@ -36,20 +37,38 @@ public class Transparix implements Runnable {
 	private Map map;
 	private JPanel panel, informations;
 	private JLabel stationName;
+
 	private StationSelectionCombo stationSelection;
 
+	private JMenu recherche;
+	private JMenuItem btnhierarchie;
+
+	private TreeSelectionFrame frmTreeSearch;
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Transparix window = new Transparix();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	/**
-	 * Constructeur qui charge les données de l'application TransParix.
-	 * 
-	 * @throws IOException
+	 * Constructeur qui charge les donnees de l'application TransParix.
 	 */
 	public Transparix() {
 		this.graph = new Graph();
+		initialize();
 	}
 
 	/**
 	 * Retourne le label qui contient le nom de la station sur lequel
-	 * l'utilisateur a cliqué.
+	 * l'utilisateur a clique.
 	 * 
 	 * @return Le nom de la station.
 	 */
@@ -57,13 +76,24 @@ public class Transparix implements Runnable {
 		return stationName;
 	}
 
-	@Override
-	public void run() {
+	public void initialize() {
+
 		// barre de menu
 		menubar = new JMenuBar();
 		fichier = new JMenu("Fichier");
 		recherche = new JMenu("Recherche");
-		
+
+		btnhierarchie = new JMenuItem("TreeSearch");
+		btnhierarchie.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				frmTreeSearch = new TreeSelectionFrame();
+				frmTreeSearch.setLocationByPlatform(true);
+				frmTreeSearch.setVisible(true);
+			}
+		});
+
 		quitter = new JMenuItem("Quitter");
 		quitter.addActionListener(new ActionListener() {
 			@Override
@@ -71,33 +101,34 @@ public class Transparix implements Runnable {
 				System.exit(0);
 			}
 		});
-		
-		
-		
-		fichier.add(quitter);
-		menubar.add(fichier);
 
-		// plan de métro
+		recherche.add(btnhierarchie);
+		fichier.add(quitter);
+
+		menubar.add(fichier);
+		menubar.add(recherche);
+
+		// plan de metro
 		map = new Map(this, this.graph, 600, 600);
-		// FIXME ajout d'un itinéraire bidon pour test
+		// FIXME ajout d'un itineraire bidon pour test
 		BFS parcours = new BFS(this.graph, 1953, 1793);
 		LinkedList<Integer> list = parcours.getPath();
 		// map.drawPath(list);
 		System.out.println(list.toString());
 
 		// panel informations
-		// TODO ajouter une classe InformationsStation qui hérite de JPanel
+		// TODO ajouter une classe InformationsStation qui herite de JPanel
 		informations = new JPanel();
 		informations.setPreferredSize(new Dimension(200, 500));
 		stationName = new JLabel();
 		informations.add(stationName);
 
-		// panel recherche station de métro
+		// panel recherche station de metro
 		// TODO
 		stationSelection = new StationSelectionCombo(this.graph
 				.stationsToHashtable().values());
 
-		// panel recherche itinéraire
+		// panel recherche itineraire
 		// TODO
 
 		// panel principal
@@ -107,17 +138,14 @@ public class Transparix implements Runnable {
 		panel.add(map, BorderLayout.WEST);
 		panel.add(informations, BorderLayout.EAST);
 
-		// fenêtre principale
+		// fenetre principale
 		frame = new JFrame("TransParix");
+		frame.setLocationRelativeTo(null);
 		frame.setJMenuBar(menubar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(panel);
 		frame.pack();
 		frame.setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Transparix());
 	}
 
 }
