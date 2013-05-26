@@ -21,7 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import examples.ComboSelectionFrame;
 
 import structure.Graph;
 

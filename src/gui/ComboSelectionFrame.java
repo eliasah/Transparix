@@ -1,7 +1,5 @@
-package examples;
+package gui;
 
-import gui.Map;
-import gui.StationSelectionCombo;
 
 import itinerary.BFS;
 
