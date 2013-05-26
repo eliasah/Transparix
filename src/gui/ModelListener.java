@@ -1,11 +1,10 @@
-package test;
+package gui;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import structure.Graph;
 
-import gui.Model;
 
 class ModelListner extends Model implements ChangeListener {
 
