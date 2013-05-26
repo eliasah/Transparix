@@ -138,7 +138,9 @@ public class Transparix {
 		// panel principal
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
+		panel.setPreferredSize(new Dimension(600,600));
 		panel.add(stationSelection, BorderLayout.NORTH);
+		map.setPreferredSize(panel.getMaximumSize());
 		panel.add(map, BorderLayout.WEST);
 		panel.add(informations, BorderLayout.EAST);
 
@@ -160,4 +162,8 @@ public class Transparix {
 		return map;
 	}
 
+	public Dimension getDimension(){
+		return frame.getSize();
+	}
+	
 }
