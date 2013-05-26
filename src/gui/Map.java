@@ -50,7 +50,7 @@ public class Map extends JPanel {
 	 *            La longueur de la carte.
 	 */
 	public Map(Transparix p, Graph graph, int width, int height) {
-		this.setLayout(null);
+		this.setLayout(new BorderLayout());
 		this.graph = graph;
 		this.parent = p;
 		this.path = new LinkedList<Integer>();
@@ -73,14 +73,14 @@ public class Map extends JPanel {
 		Graphics2D g = (Graphics2D) gg;
 
 		if (!this.zoom) {
-			// mise à jour des nouvelles dimensions
+			// mise a� jour des nouvelles dimensions
 			Dimension dim = getSize();
 			this.width = dim.getWidth() < dim.getHeight() ? (int) dim
 					.getWidth() : (int) dim.getHeight();// FIXME
 			this.height = dim.getWidth() < dim.getHeight() ? (int) dim
 					.getWidth() : (int) dim.getHeight();// FIXME
 		} else {
-			// les dimensions doivent être celles calculées dans increaseSize()
+			// les dimensions doivent etre celles calculees dans increaseSize()
 			// et decreaseSize()
 			this.zoom = false;
 		}
@@ -156,7 +156,7 @@ public class Map extends JPanel {
 		}
 
 		// FIXME
-		// tracé de l'itinéraire actuellement calculé
+		// trace de l'itineraire actuellement calcule
 		g.setColor(Color.RED);
 		stroke = new BasicStroke(7);
 		g.setStroke(stroke);
