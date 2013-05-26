@@ -77,6 +77,11 @@ public class Line {
 		return color;
 	}
 
+	/**
+	 * Calcule le nombre de stations de la ligne.
+	 * 
+	 * @return Le nombre de stations de la ligne.
+	 */
 	public int getNbStations() {
 		if (this.nbStations == -1) {
 			// calculer le nombre de stations
@@ -95,6 +100,11 @@ public class Line {
 		return this.nbStations;
 	}
 
+	/**
+	 * Calcule le nombre d'intersections de la ligne.
+	 * 
+	 * @return Le nombre d'intersections de la ligne.
+	 */
 	public int getNbIntersections() {
 		if (this.nbIntersections == -1) {
 			// calculer le nombre d'intersections
@@ -104,29 +114,45 @@ public class Line {
 			Iterator<Station> it = stations.values().iterator();
 			while (it.hasNext()) {
 				Station s = it.next();
-				// si le nombre de voisins de s est plus grand que 2
-				if (s.getNeighbours().size() > 2) {
-					this.nbIntersections++;
+				if (s.getLines().contains(this.id)) {
+					if (this.getIdArrivals().contains(s.getId())
+							|| this.getIdDepartures().contains(s.getId())) {
+						// la station est un terminus, un seul voisin
+						if (s.getNeighbours().size() > 1)
+							this.nbIntersections++;
+					} else {
+						// la station n'est pas un terminus, deux voisins
+						if (s.getNeighbours().size() > 2) {
+							this.nbIntersections++;
+						}
+					}
 				}
 			}
 		}
 		return this.nbIntersections;
 	}
 
+	/**
+	 * Calcule la longueur approximative de la ligne. Le calcul se base sur la
+	 * distance entre les deux stations terminus de la ligne.
+	 * 
+	 * @return La longueur calculée.
+	 */
 	public double getLength() {
-		// FIXME NE FONCTIONNE PAS DU TOUT
 		if (this.length == -1) {
 			// calculer la longueur
 			Graph graph = new Graph();
 			Station sD = graph.getStation(this.idDepartures.getFirst());
 			Station sA = graph.getStation(this.idArrivals.getFirst()); // FIXME
-			double latD = sD.getLatitude() * Math.PI / 180;
-			double latA = sA.getLatitude() * Math.PI / 180;
-			double lonD = sD.getLongitude() * Math.PI / 180;
-			double lonA = sA.getLongitude() * Math.PI / 180;
+			double latD = Math.toRadians(sD.getLatitude());
+			double latA = Math.toRadians(sA.getLatitude());
+			double lonD = Math.toRadians(sD.getLongitude());
+			double lonA = Math.toRadians(sA.getLongitude());
 			double r = 6371; // km
-			this.length = Math.acos(Math.sin(latD) * Math.sin(latA)
-					+ Math.cos(latD) * Math.cos(latA) * Math.cos(lonD - lonA));
+			this.length = r
+					* Math.acos(Math.sin(latD) * Math.sin(latA)
+							+ Math.cos(latD) * Math.cos(latA)
+							* Math.cos(lonD - lonA));
 		}
 		return this.length;
 	}
