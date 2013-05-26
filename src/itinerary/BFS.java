@@ -64,15 +64,18 @@ public class BFS {
 					queue.add(stmp.getId());
 					tmppath.add(stmp.getId());
 					list.put(stmp.getId(), v);
-					// System.out.println("De " + graph.getStation(v).getNom() +
-					// " vers " + stmp.getNom());
 				}
 
 				if (stmp.getId() == end.getId()) {
 					// System.out.println(path);
 					listToPath(a);
-					// System.out.println(list.toString());
-					// System.out.println("trouve!");
+					// ajouter le path aux 10 derniers itinéraires calculés
+					if (this.graph.getLastItineraries().size() >= 10)
+						this.graph.getLastItineraries().removeFirst();
+					this.graph.getLastItineraries().addLast(this.getPath());
+					//FIXME
+					for (LinkedList<Integer> i : this.graph.getLastItineraries())
+						System.out.println(i);
 					graph.resetMarks();
 					return;
 				}

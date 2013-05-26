@@ -40,20 +40,20 @@ public class StationSelectionCombo extends JComboBox<String> {
 	public StationSelectionCombo(LinkedList<Couple<Integer, Station>> stations) {
 		super();
 		this.stations = stations;
-		// generation du modele de donnees a�partir des noms de stations
+		// generation du modele de donnees a�partir des noms de stations
 		Vector<String> values = new Vector<String>();
 		Iterator<Couple<Integer, Station>> it = stations.iterator();
-		
-		for (Couple<Integer,Station> c : stations){
+
+		for (Couple<Integer, Station> c : stations) {
 			values.addElement(c.second().getName());
 		}
-		
-		//while (it.hasNext())
-		//	values.addElement(it.next().getName());
+
+		// while (it.hasNext())
+		// values.addElement(it.next().getName());
 		Collections.sort(values, this.comp);
 		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(
 				values);
-		// ajout du modele de donnees a� afficher
+		// ajout du modele de donnees a� afficher
 		this.setModel(model);
 		// aucune station n'est selectionnee au depart
 		this.setSelectedIndex(-1);
@@ -81,8 +81,8 @@ public class StationSelectionCombo extends JComboBox<String> {
 
 	/**
 	 * Met à jour le modèle de données à afficher en fonction des lettres
-	 * entrées par l'utilisateur. Affiche en priorité les noms commençant par
-	 * la chaîne entrée, puis les noms contenant la chaîne entrée.
+	 * entrées par l'utilisateur. Affiche en priorité les noms commençant par la
+	 * chaîne entrée, puis les noms contenant la chaîne entrée.
 	 */
 	public void updateModel() {
 		Vector<String> starting = new Vector<String>();
@@ -94,7 +94,7 @@ public class StationSelectionCombo extends JComboBox<String> {
 			text = document.getText(0, length);
 			// récupération des stations qui correspondent à la chaîne
 			// entrée
-			for (Couple<Integer,Station> c : this.stations) {
+			for (Couple<Integer, Station> c : this.stations) {
 				String name = c.second().getName();
 				if (name.toLowerCase().startsWith(text.toLowerCase()))
 					starting.add(name);
@@ -121,22 +121,6 @@ public class StationSelectionCombo extends JComboBox<String> {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String[] args) {
-		// récuparation de la liste des stations
-		Graph g = new Graph();
-		LinkedList<Couple<Integer, Station>> stations = g.getStations();
-
-		// création de la combobox
-		StationSelectionCombo combo = new StationSelectionCombo(stations);
-
-		// création de la fenêtre
-		JFrame frame = new JFrame("MyComboBox");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(combo);
-		frame.pack();
-		frame.setVisible(true);
 	}
 
 }

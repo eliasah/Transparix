@@ -27,12 +27,16 @@ public class Graph {
 	private LinkedList<Couple<String, Line>> lines;
 	private LinkedList<Couple<Integer, Station>> stations;
 	private LinkedList<Edge> edges;
+
+	private LinkedList<LinkedList<Integer>> lastItineraries; // dix derniers
+															// itinéraires
+
 	public Graph() {
 		v = 0;
 		e = 0;
 		lines = Utilities.extractLines(FILE_LINES);
 		stations = Utilities.fillwithStations(FILE_STATIONS);
-
+		this.lastItineraries = new LinkedList<LinkedList<Integer>>();
 	}
 
 	public LinkedList<Couple<Integer, Station>> getStations() {
@@ -53,14 +57,15 @@ public class Graph {
 		return null;
 	}
 
-	public Station getStation(String s){
-		for (Couple<Integer,Station> c:stations) {
+	public Station getStation(String s) {
+		for (Couple<Integer, Station> c : stations) {
 			if (c.second().getName().equals(s))
 				// System.out.println(c.second());
 				return c.second();
 		}
 		return null;
 	}
+
 	public Line getLine(String id) {
 		Iterator<Couple<String, Line>> it = this.lines.iterator();
 		while (it.hasNext()) {
@@ -122,5 +127,9 @@ public class Graph {
 	public Collection<? extends Edge> getEdges() {
 		// FIXME
 		return null;
+	}
+	
+	public LinkedList<LinkedList<Integer>> getLastItineraries() {
+		return this.lastItineraries;		
 	}
 }
