@@ -1,7 +1,5 @@
 ====A FAIRE====
 
-+ enregistrer les dix derniers itinéraires
-
 + implémenter zones géographiques dans Hierarchie
 	- Lignes
 		+ 1
@@ -19,7 +17,24 @@
 
 + générer et afficher informations sur une ligne
 
-+ compléter barre de menu
+
+
+====FAIT====
+
+- modifier affichage des stations (utiliser JButton au lieu de Graphics)
+
+- créer les différents containers à partir des composants créés (StationSelectionPanel, ItineraryPanel, ...)
+
+- retailler la fenêtre
+
+- zoom sur la carte
+
+- ajouter mnémoniques
+	Ctrl + Q
+
+- enregistrer les dix derniers itinéraires
+
+- compléter barre de menu
 	Fichier
 		Imprimer
 		Quitter
@@ -36,18 +51,4 @@
 
 
 
-
-
-====FAIT====
-
-- modifier affichage des stations (utiliser JButton au lieu de Graphics)
-
-- créer les différents containers à partir des composants créés (StationSelectionPanel, ItineraryPanel, ...)
-
-- retailler la fenêtre
-
-- zoom sur la carte
-
-- ajouter mnémoniques
-	Ctrl + Q
 
