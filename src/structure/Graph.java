@@ -56,6 +56,7 @@ public class Graph {
 	public Station getStation(String s){
 		for (Couple<Integer,Station> c:stations) {
 			if (c.second().getName().equals(s))
+				// System.out.println(c.second());
 				return c.second();
 		}
 		return null;

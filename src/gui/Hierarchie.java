@@ -109,11 +109,11 @@ public class Hierarchie extends JPanel {
 				for (String s : stmp.getLines()) {
 					if (ctmp.first().equals(s)) {
 						s = stmp.getName();
-						if (ctmp.second().getIdArrivals()
-								.contains(stmp.getId())
-								|| ctmp.second().getIdDepartures()
-										.contains(stmp.getId()))
-							s += " - Terminus";
+//						if (ctmp.second().getIdArrivals()
+//								.contains(stmp.getId())
+//								|| ctmp.second().getIdDepartures()
+//										.contains(stmp.getId()))
+//							s += " - Terminus";
 						treenode.add(new DefaultMutableTreeNode(s));
 					}
 				}

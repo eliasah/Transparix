@@ -24,27 +24,16 @@ public class TreeSelectionFrame extends JFrame {
 	private JPanel panelButtons;
 	private JButton btnChercher;
 	private Hierarchie selectionh;
-	private Model model;
+	// private Model model;
 	private Map map;
-	
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					TreeSelectionFrame frame = new TreeSelectionFrame(new Graph(),new Map());
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	private Graph graph;
 
-	public TreeSelectionFrame(Map m) {
+	public TreeSelectionFrame(Map m, Graph g) {
 		setTitle("Hierarchie");
-		model = new Model(new Graph());
+		// model = new Model(new Graph());
+		graph = g;
 		this.map = m;
-		selectionh = new Hierarchie(model.getGraph());
+		selectionh = new Hierarchie(graph);
 		btnChercher = new JButton("Chercher");
 		btnChercher.addActionListener(new ActionListener() {
 			@Override
@@ -52,34 +41,37 @@ public class TreeSelectionFrame extends JFrame {
 				Object start = selectionh.getStart();
 				Object end = selectionh.getEnd();
 				if (start != null && end != null) {
-					Graph graph = model.getGraph();
-					model.setsStart(graph.getStation(start.toString()));
-					model.setsEnd(graph.getStation(end.toString()));
-					// System.out.println("sStart " + sStart.toString() + "sEnd" + sEnd.toString());
-					BFS bfs = new BFS(graph,model.getsStart().getId(),model.getsEnd().getId());
-					graph.resetMarks();	
+					// Graph graph = model.getGraph();
+					System.out.println("start :" +  start.toString() + ", end : " + end.toString());
+					Station sStart = graph.getStation(start.toString());
+					System.out.println("sStart " + graph.getStation(start.toString()));
+					Station sEnd = graph.getStation(end.toString());
+					System.out.println("sEnd " + graph.getStation(end.toString()));
+
+					BFS bfs = new BFS(graph,sStart.getId(),sEnd.getId());
+					graph.resetMarks();
 					System.out.println(bfs.getPath().toString());
 					map.drawPath(bfs.getPath());
-				}	
-				//else {
-					// System.out.println("ERREUR");
-				//}
+				}
+				// else {
+				// System.out.println("ERREUR");
+				// }
 			}
 		});
 
 		panelButtons = new JPanel();
 		panelButtons.setLayout(new BorderLayout());
-		
-		panelButtons.add(btnChercher,BorderLayout.SOUTH);
-		
+
+		panelButtons.add(btnChercher, BorderLayout.SOUTH);
+
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 400, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 
-		contentPane.add(panelButtons,BorderLayout.EAST);
-		contentPane.add(selectionh,BorderLayout.CENTER);
+		contentPane.add(panelButtons, BorderLayout.EAST);
+		contentPane.add(selectionh, BorderLayout.CENTER);
 		setContentPane(contentPane);
 	}
 }

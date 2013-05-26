@@ -90,7 +90,7 @@ public class Transparix {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				frmTreeSearch = new TreeSelectionFrame(map);
+				frmTreeSearch = new TreeSelectionFrame(map,graph);
 				frmTreeSearch.setLocationByPlatform(true);
 				frmTreeSearch.setVisible(true);
 			}
@@ -114,11 +114,11 @@ public class Transparix {
 		map = new Map(this, this.graph, 600, 600);
 		
 		// FIXME ajout d'un itineraire bidon pour test
-		BFS parcours = new BFS(this.graph, 1953, 1793);
-		LinkedList<Integer> list = parcours.getPath();
+		// BFS parcours = new BFS(this.graph, 1953, 1793);
+		// LinkedList<Integer> list = parcours.getPath();
 		
-		map.drawPath(list);
-		System.out.println(list.toString());
+		// map.drawPath(list);
+		// System.out.println(list.toString());
 
 		// panel informations
 		// TODO ajouter une classe InformationsStation qui herite de JPanel
