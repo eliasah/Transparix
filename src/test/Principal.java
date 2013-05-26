@@ -1,5 +1,6 @@
 package test;
 
+import gui.Model;
 import gui.StationSelectionCombo;
 import gui.TreeSelectionFrame;
 import itinerary.BFS;
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
+import javax.swing.AbstractButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -17,6 +19,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import structure.Graph;
 
@@ -24,7 +28,7 @@ public class Principal {
 
 	private JMenu fichier;
 	private JFrame frame;
-	private Graph graph;
+	private Model model;
 	private Map map;
 	private JMenuBar menubar;
 	private JPanel panel, informations;
@@ -52,8 +56,7 @@ public class Principal {
 
 	void initialize() {
 		tsf = new TreeSelectionFrame();
-		
-		this.graph = new Graph();
+		model = new Model(new Graph());
 		// barre de menu
 		menubar = new JMenuBar();
 		fichier = new JMenu("Fichier");
@@ -77,11 +80,11 @@ public class Principal {
 		menubar.add(fichier);
 		menubar.add(chercher);
 
-		// plan de métro
-		map = new Map(this, this.graph, 500, 500);
-		// FIXME ajout d'un itinéraire bidon pour test
+		// plan de metro
+		map = new Map(this, model.getGraph(), 500, 500);
+		// FIXME ajout d'un itineraire bidon pour test
 		//for (int i = 0; i < 10; i++) {
-			BFS parcours = new BFS(this.graph, 1953, 1793);
+			BFS parcours = new BFS(model.getGraph(), 1953, 1793);
 			LinkedList<Integer> list = parcours.getPath();
 			// map.drawPath(list);
 			System.out.println(list.toString());
@@ -94,12 +97,12 @@ public class Principal {
 		stationName = new JLabel();
 		informations.add(stationName);
 
-		// panel recherche station de métro
+		// panel recherche station de metro
 		// TODO
-		stationSelection = new StationSelectionCombo(this.graph
+		stationSelection = new StationSelectionCombo(model.getGraph()
 				.stationsToHashtable().values());
 
-		// panel recherche itinéraire
+		// panel recherche itineraire
 		// TODO
 
 		// panel principal
@@ -109,7 +112,7 @@ public class Principal {
 		panel.add(map, BorderLayout.WEST);
 		panel.add(informations, BorderLayout.EAST);
 
-		// fenêtre principale
+		// fenetre principale
 		frame = new JFrame("TransParix");
 		frame.setJMenuBar(menubar);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

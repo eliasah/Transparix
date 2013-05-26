@@ -46,8 +46,6 @@ public class BFS {
 				continue;
 			}
 			// FIXME
-			//System.out.println("tmp " + tmp.toString());
-			// FIXME
 			//if (!tmp.isAvailable())
 			//	continue;
 			HashMap<Integer, String> voisins = tmp.getNeighbours();
@@ -74,7 +72,7 @@ public class BFS {
 					// System.out.println(path);
 					listToPath(a);
 					// System.out.println(list.toString());
-					// System.out.println("trouvé!");
+					// System.out.println("trouve!");
 					graph.resetMarks();
 					return;
 				}
