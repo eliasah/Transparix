@@ -128,6 +128,7 @@ public class Map extends JPanel {
 			// affichage des stations
 			JButton bStation = new JButton(new ColoredSquare(Color.black,
 					STATION_SIZE));
+			bStation.setToolTipText(s.getName());
 			bStation.setPreferredSize(new Dimension(STATION_SIZE, STATION_SIZE));
 			bStation.setBounds(coords[0] - STATION_SIZE / 2, coords[1]
 					- STATION_SIZE / 2, STATION_SIZE, STATION_SIZE);

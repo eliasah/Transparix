@@ -73,9 +73,6 @@ public class BFS {
 					if (this.graph.getLastItineraries().size() >= 10)
 						this.graph.getLastItineraries().removeFirst();
 					this.graph.getLastItineraries().addLast(this.getPath());
-					//FIXME
-					for (LinkedList<Integer> i : this.graph.getLastItineraries())
-						System.out.println(i);
 					graph.resetMarks();
 					return;
 				}
