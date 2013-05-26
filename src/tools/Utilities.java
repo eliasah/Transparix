@@ -61,7 +61,7 @@ public class Utilities {
 	}
 
 	/**
-	 * Extrait les informations sur les lignes qui composent le Métro Parisien.
+	 * Extrait les informations sur les lignes qui composent le Metro Parisien.
 	 * 
 	 * @param filePath
 	 *            Le chemin du fichier contenant les lignes.

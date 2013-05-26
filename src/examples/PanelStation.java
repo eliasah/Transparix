@@ -8,7 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 /**
- * Cette classe crée un JPanel pour la séléction de station dans un combobox
+ * Cette classe cree un JPanel pour la selection de station dans un combobox
  * @author Abou Haydar Elias - Univ. Paris Denis Diderot
  *
  */
