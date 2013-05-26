@@ -5,12 +5,12 @@ import java.awt.event.ActionListener;
 
 import structure.Station;
 
-public class ButtonListener implements ActionListener{
-	
+public class StationListener implements ActionListener {
+
 	private Station station;
 	private Transparix parent;
-	
-	public ButtonListener(Station station, Transparix parent) {
+
+	public StationListener(Station station, Transparix parent) {
 		this.station = station;
 		this.parent = parent;
 	}

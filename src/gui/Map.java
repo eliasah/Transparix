@@ -5,6 +5,7 @@ import structure.Line;
 import structure.Station;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -52,20 +54,6 @@ public class Map extends JPanel {
 		this.setPreferredSize(new Dimension(width, height));
 		this.setMinimumSize(new Dimension(width, height));
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		// affichage des stations
-		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
-				.entrySet().iterator();
-		while (it.hasNext()) {
-			Station s = it.next().getValue();
-			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
-					s.getLongitude(), this.width, this.height);
-			// FIXME créer une classe StationButton
-			JButton bStation = new JButton(new ColoredSquare(Color.green));
-			bStation.setBounds(coords[0], coords[1], STATION_SIZE, STATION_SIZE);
-			bStation.addActionListener(new ButtonListener(s, this.parent));
-			this.add(bStation);
-		}
-
 		this.repaint();
 	}
 
@@ -75,11 +63,16 @@ public class Map extends JPanel {
 		Graphics2D g = (Graphics2D) gg;
 
 		Dimension dim = getSize();
-		BasicStroke stroke = new BasicStroke(2);
+		BasicStroke stroke = new BasicStroke(3);
 
 		// coloration du fond de la carte
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, (int) dim.getWidth(), (int) dim.getHeight());
+
+		// suppression des anciens boutons (en cas de redimensionnement)
+		for (Component c : this.getComponents())
+			if (c instanceof JButton)
+				this.remove(c);
 
 		// itération sur l'ensemble des stations
 		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
@@ -87,11 +80,20 @@ public class Map extends JPanel {
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
 			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
-					s.getLongitude(), this.width, this.height);
+					s.getLongitude(), (int) dim.getWidth(),
+					(int) dim.getHeight());
+
+			// affichage des stations
+			JButton bStation = new JButton(new ColoredSquare(Color.black,
+					STATION_SIZE));
+			bStation.setPreferredSize(new Dimension(STATION_SIZE, STATION_SIZE));
+			bStation.setBounds(coords[0] - STATION_SIZE / 2, coords[1]
+					- STATION_SIZE / 2, STATION_SIZE, STATION_SIZE);
+			bStation.addActionListener(new StationListener(s, this.parent));
+			this.add(bStation);
 
 			// tracé des segments reliant la station à chacun de ses voisins
 			g.setStroke(stroke);
-
 			HashMap<Integer, String> nList = s.getNeighbours();
 			Iterator<Integer> itS = nList.keySet().iterator();
 			Iterator<String> itL = nList.values().iterator();
@@ -99,8 +101,8 @@ public class Map extends JPanel {
 				int idSN = itS.next();
 				Station sN = this.graph.stationsToHashtable().get(idSN);
 				int[] coordsSN = this.convertCoordinatesStation(
-						sN.getLatitude(), sN.getLongitude(), this.width,
-						this.height);
+						sN.getLatitude(), sN.getLongitude(),
+						(int) dim.getWidth(), (int) dim.getHeight());
 				String idLN = itL.next();
 				Line lN = this.graph.linesToHashtable().get(idLN);
 				Color colorLN = lN.getColor();
@@ -122,14 +124,14 @@ public class Map extends JPanel {
 				tmp = s;
 			} else {
 				int[] coords1 = this.convertCoordinatesStation(
-						tmp.getLatitude(), tmp.getLongitude(), this.width,
-						this.height);
+						tmp.getLatitude(), tmp.getLongitude(),
+						(int) dim.getWidth(), (int) dim.getHeight());
 				if (!itP.hasNext()) // s1 est la station d'arrivée
 					break;
 				Station s2 = this.graph.stationsToHashtable().get(itP.next());
 				int[] coords2 = this.convertCoordinatesStation(
-						s2.getLatitude(), s2.getLongitude(), this.width,
-						this.height);
+						s2.getLatitude(), s2.getLongitude(),
+						(int) dim.getWidth(), (int) dim.getHeight());
 				g.drawLine(coords1[0], coords1[1], coords2[0], coords2[1]);
 				tmp = s2;
 			}
@@ -240,4 +242,30 @@ public class Map extends JPanel {
 		return min;
 	}
 
+}
+
+class ColoredSquare implements Icon {
+	private Color color;
+	private int length;
+
+	public ColoredSquare(Color color, int length) {
+		this.color = color;
+		this.length = length;
+	}
+
+	@Override
+	public void paintIcon(Component c, Graphics g, int x, int y) {
+		g.setColor(color);
+		g.drawRect(x, y, getIconWidth(), getIconHeight());
+	}
+
+	@Override
+	public int getIconWidth() {
+		return this.length;
+	}
+
+	@Override
+	public int getIconHeight() {
+		return this.length;
+	}
 }

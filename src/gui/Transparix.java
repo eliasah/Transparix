@@ -73,7 +73,7 @@ public class Transparix implements Runnable {
 		menubar.add(fichier);
 
 		// plan de métro
-		map = new Map(this, this.graph, 500, 500);
+		map = new Map(this, this.graph, 600, 600);
 		// FIXME ajout d'un itinéraire bidon pour test
 		BFS parcours = new BFS(this.graph, 1953, 1793);
 		LinkedList<Integer> list = parcours.getPath();
