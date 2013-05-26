@@ -38,7 +38,7 @@ public class Transparix {
 	private JMenu fichier;
 	private JMenuItem quitter;
 	private Map map;
-	private JPanel panel, informations;
+	private JPanel panel;
 	private JLabel stationName;
 
 	private JMenu recherche;
@@ -49,6 +49,8 @@ public class Transparix {
 	private JMenuItem btnComboSearch;
 	private JMenu itineraire;
 	private JMenu derniersItineraires;
+	
+	private ItineraryFrame itineraryFrame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -143,9 +145,6 @@ public class Transparix {
 		itineraire.add(btnTreeSearch);
 		itineraire.add(btnComboSearch);
 		itineraire.add(derniersItineraires);
-		// FIXME
-		// recherche.add(btnTreeSearch);
-		// recherche.add(btnComboSearch);
 		fichier.add(quitter);
 
 		menubar.add(fichier);
@@ -155,25 +154,15 @@ public class Transparix {
 		// plan de metro
 		map = new Map(this, this.graph, 600, 600);
 
-		// panel informations
-		// TODO ajouter une classe InformationsStation qui herite de JPanel
-		informations = new JPanel();// FIXME
-		informations.setPreferredSize(new Dimension(200, 500));
-		stationName = new JLabel();
-		informations.add(stationName);
-
 		// panel principal
 		panel = new JPanel();
 		panel.setLayout(new BorderLayout());
 		panel.setPreferredSize(new Dimension(600, 600));
 		map.setPreferredSize(panel.getMaximumSize());
 		panel.add(map, BorderLayout.CENTER);
-		// FIXME
-		// panel.add(informations, BorderLayout.EAST);
 
 		// fenetre principale
 		frame = new JFrame("TransParix");
-		// frame.setLocationRelativeTo(null);
 		Point p = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getCenterPoint();
 		frame.setLocation((int) (p.getX() - 300), (int) (p.getY() - 300));
@@ -201,7 +190,16 @@ public class Transparix {
 			String sDName = sD.getName();
 			String sAName = sA.getName();
 			String path = "De " + sDName + " à " + sAName + "...";
-			this.derniersItineraires.add(new JMenuItem(path));
+			JMenuItem pathL = new JMenuItem(path);
+			pathL.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					itineraryFrame = new ItineraryFrame(map, graph);
+					itineraryFrame.setLocationByPlatform(true);
+					itineraryFrame.setVisible(true);
+				}
+			});
+			this.derniersItineraires.add(pathL);
 		}
 	}
 

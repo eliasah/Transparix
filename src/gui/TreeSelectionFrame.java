@@ -3,20 +3,18 @@ package gui;
 import itinerary.BFS;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import structure.Graph;
 import structure.Station;
-import javax.swing.JLabel;
 
 public class TreeSelectionFrame extends JFrame {
 
@@ -24,38 +22,44 @@ public class TreeSelectionFrame extends JFrame {
 	private JPanel panelButtons;
 	private JButton btnChercher;
 	private Hierarchie selectionh;
-	// private Model model;
 	private Map map;
 	private Graph graph;
 
 	public TreeSelectionFrame(Map m, Graph g) {
 		setTitle("Hierarchie");
-		// model = new Model(new Graph());
 		graph = g;
 		this.map = m;
 		selectionh = new Hierarchie(graph);
 		btnChercher = new JButton("Chercher");
+		btnChercher.setMnemonic(KeyEvent.VK_C);
 		btnChercher.addActionListener(new ActionListener() {
 			@Override
 			synchronized public void actionPerformed(ActionEvent e) {
 				Object start = selectionh.getStart();
 				Object end = selectionh.getEnd();
 				if (start != null && end != null) {
-					// Graph graph = model.getGraph();
-					System.out.println("start :" +  start.toString() + ", end : " + end.toString());
+					// System.out.println("start :" + start.toString() +
+					// ", end : " + end.toString());
 					Station sStart = graph.getStation(start.toString());
-					System.out.println("sStart " + graph.getStation(start.toString()));
+					// System.out.println("sStart " +
+					// graph.getStation(start.toString()));
 					Station sEnd = graph.getStation(end.toString());
-					System.out.println("sEnd " + graph.getStation(end.toString()));
+					// System.out.println("sEnd " +
+					// graph.getStation(end.toString()));
 
-					BFS bfs = new BFS(graph,sStart.getId(),sEnd.getId());
+					BFS bfs = new BFS(graph, sStart.getId(), sEnd.getId());
 					graph.resetMarks();
-					System.out.println(bfs.getPath().toString());
+					// FIXME
+//					System.out.println(bfs.getPath().toString());
+					
+					// affichage de l'itinéraire
+					ItineraryFrame itineraryFrame = new ItineraryFrame(map,
+							graph);
+					itineraryFrame.setLocationByPlatform(true);
+					itineraryFrame.setVisible(true);
+					
 					map.drawPath(bfs.getPath());
 				}
-				// else {
-				// System.out.println("ERREUR");
-				// }
 			}
 		});
 
@@ -64,7 +68,7 @@ public class TreeSelectionFrame extends JFrame {
 
 		panelButtons.add(btnChercher, BorderLayout.SOUTH);
 
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		setBounds(100, 100, 400, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

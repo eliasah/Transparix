@@ -3,14 +3,13 @@ package gui;
 import itinerary.BFS;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import structure.Graph;
@@ -21,6 +20,7 @@ import javax.swing.UIManager;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class ComboSelectionFrame extends JFrame {
 
@@ -32,15 +32,13 @@ public class ComboSelectionFrame extends JFrame {
 	private JButton btnChercher;
 	private JPanel pnlButton;
 
-	private JPanel panelButtons;
-	// private Model model;
 	private Map map;
 	private Graph graph;
 
 	public ComboSelectionFrame(Map m, Graph g) {
 		map = m;
 
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		this.graph = g;
 		LinkedList<Couple<Integer, Station>> stations = g.getStations();
@@ -56,26 +54,35 @@ public class ComboSelectionFrame extends JFrame {
 		pnlStart.add(sscStart);
 
 		btnChercher = new JButton("Chercher");
+		btnChercher.setMnemonic(KeyEvent.VK_C);
 		btnChercher.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Object start = sscStart.getSelectedItem();
 				Object end = sscEnd.getSelectedItem();
 				if (start != null && end != null) {
-					// Graph graph = model.getGraph();
-					System.out.println("start :" + start.toString()
-							+ ", end : " + end.toString());
+					// System.out.println("start :" + start.toString()
+					// + ", end : " + end.toString());
 					Station sStart = graph.getStation(start.toString());
-					System.out.println("sStart "
-							+ graph.getStation(start.toString()));
+					// System.out.println("sStart "
+					// + graph.getStation(start.toString()));
 					Station sEnd = graph.getStation(end.toString());
-					System.out.println("sEnd "
-							+ graph.getStation(end.toString()));
+					// System.out.println("sEnd "
+					// + graph.getStation(end.toString()));
 					if (sStart == null || sEnd == null) {
 						showErrorDialog();
 					} else {
 						BFS bfs = new BFS(graph, sStart.getId(), sEnd.getId());
 						graph.resetMarks();
-						System.out.println(bfs.getPath().toString());
+						// FIXME
+						// System.out.println(bfs.getPath().toString());
+
+						// affichage de l'itinéraire
+						ItineraryFrame itineraryFrame = new ItineraryFrame(map,
+								graph);
+						itineraryFrame.setLocationByPlatform(true);
+						itineraryFrame.setVisible(true);
+						
 						map.drawPath(bfs.getPath());
 					}
 				} else {

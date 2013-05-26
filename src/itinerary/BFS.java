@@ -67,12 +67,13 @@ public class BFS {
 				}
 
 				if (stmp.getId() == end.getId()) {
-					// System.out.println(path);
 					listToPath(a);
+					
 					// ajouter le path aux 10 derniers itinéraires calculés
 					if (this.graph.getLastItineraries().size() >= 10)
 						this.graph.getLastItineraries().removeFirst();
 					this.graph.getLastItineraries().addLast(this.getPath());
+					
 					graph.resetMarks();
 					return;
 				}
