@@ -19,9 +19,6 @@
 
 + générer et afficher informations sur une ligne
 
-+ ajouter mnémoniques
-	Ctrl + Q
-
 + compléter barre de menu
 	Fichier
 		Imprimer
@@ -51,4 +48,6 @@
 
 - zoom sur la carte
 
+- ajouter mnémoniques
+	Ctrl + Q
 
