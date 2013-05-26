@@ -8,15 +8,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 /**
@@ -30,7 +27,6 @@ public class Map extends JPanel {
 	private Transparix parent;
 	private Graph graph;
 	private LinkedList<Integer> path;
-	private BufferedImage image;
 	private int width, height;
 	private final int STATION_SIZE = 5;
 
@@ -47,43 +43,29 @@ public class Map extends JPanel {
 	 *            La longueur de la carte.
 	 */
 	public Map(Transparix p, Graph graph, int width, int height) {
+		this.setLayout(null);
 		this.graph = graph;
 		this.parent = p;
 		this.path = new LinkedList<Integer>();
 		this.width = width;
 		this.height = height;
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-		this.setLayout(null);
 		this.setPreferredSize(new Dimension(width, height));
 		this.setMinimumSize(new Dimension(width, height));
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		this.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
+		// affichage des stations
+		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
+				.entrySet().iterator();
+		while (it.hasNext()) {
+			Station s = it.next().getValue();
+			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
+					s.getLongitude(), this.width, this.height);
+			// FIXME créer une classe StationButton
+			JButton bStation = new JButton(new ColoredSquare(Color.green));
+			bStation.setBounds(coords[0], coords[1], STATION_SIZE, STATION_SIZE);
+			bStation.addActionListener(new ButtonListener(s, this.parent));
+			this.add(bStation);
+		}
 
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				// FIXME afficher le nom dans un Panel
-				int x = arg0.getX();
-				int y = arg0.getY();
-				Station s = stationPressed(x, y);
-				if (s != null)
-					parent.getStationName().setText(s.getName());
-			}
-		});
 		this.repaint();
 	}
 
@@ -91,7 +73,7 @@ public class Map extends JPanel {
 	public void paintComponent(Graphics gg) {
 		super.paintComponent(gg);
 		Graphics2D g = (Graphics2D) gg;
-		g.drawImage(image, 0, 0, null);
+
 		Dimension dim = getSize();
 		BasicStroke stroke = new BasicStroke(2);
 
@@ -106,11 +88,6 @@ public class Map extends JPanel {
 			Station s = it.next().getValue();
 			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
 					s.getLongitude(), this.width, this.height);
-
-			// affichage de la station
-			g.setColor(Color.BLACK);
-			g.fillRect(coords[0] - STATION_SIZE / 2, coords[1] - STATION_SIZE
-					/ 2, STATION_SIZE, STATION_SIZE);
 
 			// tracé des segments reliant la station à chacun de ses voisins
 			g.setStroke(stroke);
@@ -157,39 +134,12 @@ public class Map extends JPanel {
 				tmp = s2;
 			}
 		}
+
 	}
 
 	public void drawPath(LinkedList<Integer> path) {
 		this.path = path;
 		this.repaint();
-	}
-
-	/**
-	 * Détermine si le point (x,y) correspond à une station et renvoie cette
-	 * dernière, ou null dans le cas contraire.
-	 * 
-	 * @param x
-	 *            L'abscisse du point.
-	 * @param y
-	 *            L'ordonnée du point.
-	 * @return La station sur laquelle le clic de souris a eu lieu. Si aucune
-	 *         station n'est trouvée, renvoie null.
-	 */
-	public Station stationPressed(int x, int y) {
-		Iterator<Entry<Integer, Station>> it = this.graph.stationsToHashtable()
-				.entrySet().iterator();
-		while (it.hasNext()) {
-			Station s = it.next().getValue();
-			int[] coords = this.convertCoordinatesStation(s.getLatitude(),
-					s.getLongitude(), this.width, this.height);
-			int xS = coords[0];
-			int yS = coords[1];
-			if (x >= xS - STATION_SIZE / 2 && x <= xS + STATION_SIZE / 2
-					&& y >= yS - STATION_SIZE / 2 && y <= yS + STATION_SIZE / 2) {
-				return s;
-			}
-		}
-		return null;
 	}
 
 	/**
@@ -250,9 +200,6 @@ public class Map extends JPanel {
 				.entrySet().iterator();
 		while (it.hasNext()) {
 			Station s = it.next().getValue();
-			// java.util.Iterator<Station> it = this.stations.iterator();
-			// while (it.hasNext()) {
-			// Station s = it.next();
 			if (s.getLatitude() < min)
 				min = s.getLatitude();
 		}
