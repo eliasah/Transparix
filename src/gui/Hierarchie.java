@@ -43,8 +43,10 @@ public class Hierarchie extends JPanel {
 	private JScrollPane scrollPanestart, scrollPaneend;
 
 	private final Graph graph;
-	private Object start, end;
+	private Object start = null, end = null;
 	private StationTreeSelectionListener tsl;
+	private JLabel lblDepart;
+	private JLabel lblArrivee;
 
 
 	public Object getStart() {
@@ -58,9 +60,6 @@ public class Hierarchie extends JPanel {
 	public Hierarchie(Graph g) {
 		setLayout(new GridLayout(2, 1));
 		graph = g;
-
-		start = new Object();
-		end = new Object();
 
 		dmlines = new DefaultMutableTreeNode("Lignes");
 		treestart = new JTree(dmlines);
@@ -86,8 +85,14 @@ public class Hierarchie extends JPanel {
 
 		//add(new JLabel("Depart"));
 		add(scrollPanestart);
+		
+		lblDepart = new JLabel("Depart");
+		scrollPanestart.setColumnHeaderView(lblDepart);
 		//add(new JLabel("Arrivee"));
 		add(scrollPaneend);
+		
+		lblArrivee = new JLabel("Arrivee");
+		scrollPaneend.setColumnHeaderView(lblArrivee);
 	}
 
 	private void filltrees() {
