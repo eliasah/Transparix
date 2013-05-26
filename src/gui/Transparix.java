@@ -1,18 +1,14 @@
 package gui;
 
-import itinerary.BFS;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -22,9 +18,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 import structure.Graph;
+import structure.Station;
 
 /**
  * TODO
@@ -43,17 +41,18 @@ public class Transparix {
 	private JPanel panel, informations;
 	private JLabel stationName;
 
-	private StationSelectionCombo stationSelection;
-
 	private JMenu recherche;
 	private JMenuItem btnTreeSearch;
 
 	private TreeSelectionFrame frmTreeSearch;
 	private ComboSelectionFrame frmComboSearch;
 	private JMenuItem btnComboSearch;
+	private JMenu itineraire;
+	private JMenu derniersItineraires;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Transparix window = new Transparix();
@@ -90,11 +89,14 @@ public class Transparix {
 		fichier.setMnemonic(KeyEvent.VK_F);
 		recherche = new JMenu("Recherche");
 		recherche.setMnemonic(KeyEvent.VK_R);
+		itineraire = new JMenu("Itineraire");
+		itineraire.setMnemonic(KeyEvent.VK_I);
+		
+		// TOOD ajouter des choses à rechercher : station, ligne...
 
 		btnTreeSearch = new JMenuItem("TreeSearch");
 		btnTreeSearch.setMnemonic(KeyEvent.VK_T);
 		btnTreeSearch.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frmTreeSearch = new TreeSelectionFrame(map, graph);
@@ -106,7 +108,6 @@ public class Transparix {
 		btnComboSearch = new JMenuItem("ComboSearch");
 		btnComboSearch.setMnemonic(KeyEvent.VK_C);
 		btnComboSearch.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				frmComboSearch = new ComboSelectionFrame(map, graph);
@@ -124,13 +125,32 @@ public class Transparix {
 				System.exit(0);
 			}
 		});
+		
+		derniersItineraires = new JMenu("Derniers itinéraires");
+		derniersItineraires.addMenuListener(new MenuListener() {
+			@Override
+			public void menuSelected(MenuEvent arg0) {
+				updateItineraries();
+			}
+			@Override
+			public void menuDeselected(MenuEvent arg0) {
+			}
+			@Override
+			public void menuCanceled(MenuEvent arg0) {	
+			}
+		});
 
-		recherche.add(btnTreeSearch);
-		recherche.add(btnComboSearch);
+		itineraire.add(btnTreeSearch);
+		itineraire.add(btnComboSearch);
+		itineraire.add(derniersItineraires);
+		// FIXME
+		// recherche.add(btnTreeSearch);
+		// recherche.add(btnComboSearch);
 		fichier.add(quitter);
 
 		menubar.add(fichier);
 		menubar.add(recherche);
+		menubar.add(itineraire);
 
 		// plan de metro
 		map = new Map(this, this.graph, 600, 600);
@@ -171,6 +191,18 @@ public class Transparix {
 
 	public Dimension getDimension() {
 		return frame.getSize();
+	}
+	
+	public void updateItineraries() {
+		this.derniersItineraires.removeAll();
+		for (LinkedList<Integer> l : this.graph.getLastItineraries()) {
+			Station sD = this.graph.getStation(l.getFirst());
+			Station sA = this.graph.getStation(l.getLast());
+			String sDName = sD.getName();
+			String sAName = sA.getName();
+			String path = "De " + sDName + " à " + sAName + "...";
+			this.derniersItineraires.add(new JMenuItem(path));
+		}
 	}
 
 }

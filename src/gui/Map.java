@@ -19,6 +19,7 @@ import java.util.Map.Entry;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -33,7 +34,7 @@ public class Map extends JPanel {
 	private Graph graph;
 	private LinkedList<Integer> path;
 	private int width, height;
-	private final int STATION_SIZE = 5;
+	private final int STATION_SIZE = 6;
 	private boolean zoom = false;
 
 	/**
