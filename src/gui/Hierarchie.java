@@ -16,7 +16,11 @@ import structure.Station;
 import tools.Couple;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
-
+/**
+ * 
+ * @author Abou Haydar Elias - Univ. Paris Denis Diderot
+ *
+ */
 public class Hierarchie extends JPanel {
 	private DefaultMutableTreeNode dmlines;
 	private JTree treestart;
@@ -76,6 +80,9 @@ public class Hierarchie extends JPanel {
 		scrollPaneend.setColumnHeaderView(lblArrivee);
 	}
 
+	/**
+	 * Fill the JTree
+	 */
 	private void filltrees() {
 		Iterator<Couple<String, Line>> it1 = graph.getLines().iterator();
 		while (it1.hasNext()) {

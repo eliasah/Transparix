@@ -22,6 +22,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+/**
+ * 
+ * @author Abou Haydar Elias - Univ. Paris Denis Diderot
+ *
+ */
+
 public class ComboSelectionFrame extends JFrame {
 
 	private JPanel contentPane;
@@ -34,7 +40,12 @@ public class ComboSelectionFrame extends JFrame {
 
 	private Map map;
 	private Graph graph;
-
+	/**
+	 * Constructeur de la frame de selection avec combo box pour ComboSearch
+	 * 
+	 * @param m object gui.Map
+	 * @param g object structure.Graph
+	 */
 	public ComboSelectionFrame(Map m, Graph g) {
 		map = m;
 

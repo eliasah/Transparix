@@ -1,5 +1,7 @@
 package gui;
 
+import itinerary.BFS;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Event;
@@ -32,7 +34,7 @@ import tools.Couple;
  * Cette classe est la classe principale du projet TransParix. Elle contrôle
  * l'affichage de la fenêtre principale contenant le plan du métro.
  * 
- * @author isabelle
+ * @author Isabelle Richard, Abou Haydar Elias
  * 
  */
 public class Transparix {
@@ -222,19 +224,42 @@ public class Transparix {
 			Station sA = this.graph.getStation(this.currentList.getLast());
 			String sDName = sD.getName();
 			String sAName = sA.getName();
+			
+			// System.out.println(currentList.toString());
+			
 			String path = "De " + sDName + " à " + sAName + "...";
 			JMenuItem pathL = new JMenuItem(path);
-			pathL.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// FIXME le meme itineraire s'affiche toujours (le dernier)
-					itineraryFrame = new ItineraryFrame(graph, map, currentList);
-					itineraryFrame.setLocationByPlatform(true);
-					itineraryFrame.setVisible(true);
-				}
-			});
+			pathL.setActionCommand(sDName+";"+sAName);
+			pathL.addActionListener(new Listener(itineraryFrame,map,graph,sD, sA));
 			this.derniersItineraires.add(pathL);
 		}
 	}
 
+}
+
+class Listener implements ActionListener {
+	private Station d;
+	private Station a;
+	private Graph g;
+	private Map m;
+	private ItineraryFrame it;
+	
+	public Listener(ItineraryFrame it,Map m,Graph g,Station d, Station a) {
+		this.d = d;
+		this.a = a;
+		this.g = g;
+		this.it = it;
+		this.m = m;
+		
+	}
+	public void actionPerformed(ActionEvent arg0) {
+		System.out.println(d.getName());
+		System.out.println(a.getName());
+		BFS bfs = new BFS(g, d.getId(), a.getId());
+		g.resetMarks();
+		// FIXME le meme itineraire s'affiche toujours (le dernier)
+		it = new ItineraryFrame(g, m, bfs.getPath());
+		it.setLocationByPlatform(true);
+		it.setVisible(true);
+	}
 }

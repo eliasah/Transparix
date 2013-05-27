@@ -20,6 +20,11 @@ import structure.Graph;
 import structure.Station;
 import tools.Couple;
 
+/**
+ * 
+ * @author Isabelle Richard - Univ. Paris Denis Diderot
+ *
+ */
 public class StationSelectionCombo extends JComboBox<String> {
 
 	private Collection<Couple<Integer, Station>> stations;

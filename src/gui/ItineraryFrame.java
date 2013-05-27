@@ -8,6 +8,11 @@ import javax.swing.JLabel;
 import javax.swing.WindowConstants;
 import structure.Graph;
 
+/**
+ * 
+ * @author Isabelle Richard - Univ. Paris Denis Diderot
+ *
+ */
 public class ItineraryFrame extends JFrame {
 
 	private Graph graph;

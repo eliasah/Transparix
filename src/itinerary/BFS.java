@@ -8,6 +8,11 @@ import java.util.Map;
 import structure.Graph;
 import structure.Station;
 
+/**
+ * 
+ * @author Abou Haydar Elias - Univ. Paris Denis Diderot
+ *
+ */
 public class BFS {
 
 	private LinkedList<Integer> queue;

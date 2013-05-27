@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 /**
  * Cette classe represente le panneau d'affichage du plan du metro.
  * 
- * @author isabelle
+ * @author Isabelle Richard
  * 
  */
 public class Map extends JPanel {

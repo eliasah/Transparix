@@ -13,6 +13,12 @@ import javax.swing.event.EventListenerList;
 import structure.Graph;
 import structure.Station;
 
+/**
+ * Model du Programme
+ * @author Abou Haydar Elias - Univ. Paris Denis Diderot
+ *
+ * TODO impletementer
+ */
 public class Model {
 	protected ChangeEvent changeEvent = null;
 	protected EventListenerList listenerList = new EventListenerList();

@@ -44,7 +44,7 @@ public class Graph {
 	}
 
 	public void getShortestPath(String dep, String arr) {
-		new Dijkstra(this, dep);
+		new Dijkstra(this);
 	}
 
 	public Station getStation(int id) {

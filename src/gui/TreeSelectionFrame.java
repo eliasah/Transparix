@@ -16,6 +16,11 @@ import javax.swing.border.EmptyBorder;
 import structure.Graph;
 import structure.Station;
 
+/**
+ * 
+ * @author Abou Haydar Elias - Univ. Paris Denis Diderot
+ *
+ */
 public class TreeSelectionFrame extends JFrame {
 
 	private JPanel contentPane;
